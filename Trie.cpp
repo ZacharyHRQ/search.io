@@ -46,7 +46,7 @@ void Trie::insert(ItemType word){
 
 void Trie::search(ItemType word){
     int result = printAutoSuggestions(word);
-    cout << result << endl;
+
     if (result == -1) 
         cout << "No other strings found with this prefix\n"; 
 
