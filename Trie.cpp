@@ -32,7 +32,7 @@ void Trie::insert(ItemType word){
     TrieNode *curr = root;
 
     for (int level = 0; level < word.length(); level++){
-        int index = CHAR_TO_INDEX(word[level]);
+        int index = (word[level] + 0 != 32) ? CHAR_TO_INDEX(word[level]) : 26;
 
         if (curr->children[index] == nullptr)
             curr->children[index] = getNode();
@@ -94,7 +94,10 @@ void Trie::suggestionsRec(Trie::TrieNode* node, ItemType word){
 
     for (int i = 0; i < MAX_SIZE; i++){
         if (node->children[i]){
-            word.push_back(97 + i);
+            if (i != 26)
+                word.push_back(97 + i);
+            else
+                word.push_back(32);
 
             suggestionsRec(node->children[i], word);
 
