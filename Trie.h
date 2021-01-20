@@ -12,6 +12,7 @@ class Trie
     private:
         struct TrieNode
         {
+            // TrieNode pointers list with size of 27 representing its children
             struct TrieNode *children[MAX_SIZE];
 
             // isWordEnd is true if the node represents end of a word 
@@ -29,6 +30,10 @@ class Trie
         // check whether the TrieNode is the lastNode (no children)
         bool isLastNode(TrieNode* node);
 
+        int printAutoSuggestions(ItemType word);
+
+        void suggestionsRec(TrieNode* node, ItemType word);
+
     public:
         // constructor
         Trie();	
@@ -43,7 +48,7 @@ class Trie
         bool remove(ItemType word);
 
         // search for a word in Trie
-        bool search(ItemType word);
+        void search(ItemType word);
 
         // display the full structure of Trie
         void display();
