@@ -1,11 +1,16 @@
 #include <iostream>
 #include "Trie.h"
+#include <string>
+
 using namespace std;
 
 void displayMenu();
 void initTrie(Trie* trie);
 
 int main(){
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
     Trie *trie = new Trie;
     initTrie(trie);
 
@@ -16,18 +21,22 @@ int main(){
         cin >> option; cout << endl;
 
         if (option == 1){
+            cin.ignore();
 	        cout << "[1] Insert a new keyword        \n";
             cout << "Enter a new keyword: ";
             string word;
-            cin >> word;
+            getline(cin, word);
+            cout << word.length() << endl;
             trie->insert(word);
         }
 
         else if (option == 3){
+            cin.ignore();
 	        cout << "[3] Search                      \n";
             cout << "Enter a keyword for searching: ";
             string word;
-            cin >> word;
+            getline(cin, word);
+            cout << word.length() << endl;
             trie->search(word);
         }
     }
@@ -51,11 +60,12 @@ void displayMenu()
 }
 
 void initTrie(Trie* trie){
-    trie->insert("hi");
+    trie->insert("hello worldz");
     trie->insert("hiichan");
-    trie->insert("chaewon");
-    trie->insert("chaeyeon");
-    trie->insert("chaewonangel");
-    trie->insert("chaewonismywife");
+    trie->insert("chaewon hii");
+    trie->insert("chaewon angel");
+    trie->insert("chaewon pretty");
+    trie->insert("chaewon fairy");
+    trie->insert("chaewon is my wife");
 }
 
