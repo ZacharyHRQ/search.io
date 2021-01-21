@@ -58,7 +58,7 @@ int Trie::printAutoSuggestions(ItemType word){
     TrieNode *curr = root;
 
     for (int level = 0; level < word.length(); level++){
-        int index = CHAR_TO_INDEX(word[level]);
+        int index = (word[level] + 0 != 32) ? CHAR_TO_INDEX(word[level]) : 26;
 
         if (curr->children[index] == nullptr) return 0;
 

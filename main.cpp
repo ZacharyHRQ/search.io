@@ -60,12 +60,12 @@ void displayMenu()
 }
 
 void initTrie(Trie* trie){
-    trie->insert("hello worldz");
-    trie->insert("hiichan");
-    trie->insert("chaewon hii");
-    trie->insert("chaewon angel");
-    trie->insert("chaewon pretty");
-    trie->insert("chaewon fairy");
-    trie->insert("chaewon is my wife");
+    trie->insert("apple iphone ten");
+    trie->insert("apple m one");
+    trie->insert("apple mac");
+    trie->insert("apple m one chip");
+    trie->insert("apple watch");
+    trie->insert("apple imac");
+    trie->insert("apple stocks");
 }
 
