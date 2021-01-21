@@ -48,10 +48,10 @@ int main(){
         }
 
         else if (option == 5){
-            cin.ignore();
+            cin.clear();
         	cout << "[5] Reset Trie                  \n";
             trie->reset();
-            cout << "The trie has been reset successfully.";
+            // cout << "The trie has been reset successfully. \n";
         }
     }
 

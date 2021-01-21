@@ -1,8 +1,14 @@
 // Trie.cpp - Implementation of Trie ADT using Pointers
 #include "Trie.h"
 
+// constructor of Trie
 Trie::Trie(){
     root = getNode();
+}
+
+// deconstructor of Trie to free up the memory
+Trie::~Trie(){
+    reset();
 }
 
 // Returns new trie node (initialized to NULLs) 
@@ -44,6 +50,7 @@ void Trie::insert(ItemType word){
     curr->isEndOfWord = true;
 }
 
+// search for a word in Trie
 void Trie::search(ItemType word){
     int result = printAutoSuggestions(word);
 
@@ -54,6 +61,7 @@ void Trie::search(ItemType word){
         cout << "No string found with this prefix\n"; 
 }
 
+// print the suggestions by the prefix given
 int Trie::printAutoSuggestions(ItemType word){
     TrieNode *curr = root;
 
@@ -84,6 +92,7 @@ int Trie::printAutoSuggestions(ItemType word){
     return 1; 
 }
 
+// recursive helper function to reach the end of nodes with given prefix
 void Trie::suggestionsRec(Trie::TrieNode* node, ItemType word){
 
     if (node->isEndOfWord){
@@ -107,10 +116,12 @@ void Trie::suggestionsRec(Trie::TrieNode* node, ItemType word){
     }
 }
 
+// removal of a keyword from trie if existed
 void Trie::remove(ItemType word){
     root = removeR(root, word, 0);
 }
 
+// recursive helper funtion to access and remove the word by incrementing the level
 Trie::TrieNode* Trie::removeR(Trie::TrieNode *node, ItemType word, int level){
     if (root == nullptr) return NULL;
 
@@ -137,13 +148,17 @@ Trie::TrieNode* Trie::removeR(Trie::TrieNode *node, ItemType word, int level){
     return node;
 }
 
+// reset the trie and initialise the trie to default again
 void Trie::reset(){
     resetR(root);
     root = getNode();
 }
 
+// mass deletion of all existing nodes
+// Starting from the root, it will keep recurring until it reaches the end of node
+// it will delete the node and free up the memory
 void Trie::resetR(TrieNode *node){
-    // if (node == nullptr) return;
+
     if (isLastNode(node)){
         node = NULL;
         delete (node);
@@ -155,4 +170,8 @@ void Trie::resetR(TrieNode *node){
             resetR(node->children[i]);
         }
     }
+
+    // free up the current node as well after removing all its children
+    node = NULL;
+    delete (node);
 }
