@@ -35,14 +35,17 @@ class Trie
         // helper funtions to print the auto suggestions
         int autoSuggestionsHelper(ItemType word);
 
-        // recursive helper function to reach the end of nodes with given prefix
-        void autoSuggestionsR(TrieNode* node, ItemType word);
+        // recursive helper function to print out all the keywords in Trie by reaching every end of node
+        void displayR(TrieNode* node, string word);
 
         // recursive helper funtion to access and remove the word by incrementing the level
         TrieNode* removeR(TrieNode* node, ItemType word, int level);
 
         // recursive helper function to reset the trie
         void resetR(TrieNode* node);
+
+
+        
 
     public:
         // constructor

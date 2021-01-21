@@ -56,15 +56,22 @@ int main(){
             trie->printAutoSuggestions(word);
         }
 
+        else if (option == 5){
+            cin.ignore();
+            cout << "[5] Display Trie                \n";
+            trie->display();
+        }
+
         else if (option == 6){
             cin.clear();
-        	cout << "[5] Reset Trie                  \n";
+        	cout << "[6] Reset Trie                  \n";
             trie->reset();
             cout << "The trie has been reset successfully. \n";
         }
     }
 
-    cout << "Exiting Search.io ....... \n";
+    cout << "[0] Exit                        \n";
+    cout << "Exiting Search.io .......       \n";
     
     return 0;
 }
