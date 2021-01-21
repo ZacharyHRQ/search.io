@@ -31,7 +31,7 @@ int main(){
 
         else if (option == 2){
             cin.ignore();
-            cout << "[2] Delete a new keyword        \n";
+            cout << "[2] Delete a keyword           \n";
             cout << "Enter a keyword for deleting: ";
             string word;
             getline(cin, word);
@@ -82,7 +82,7 @@ void displayMenu()
 	cout << "Search.io \n";
 	cout << "--------------------------------\n";
 	cout << "[1] Insert a new keyword        \n";
-	cout << "[2] Delete a new keyword        \n";
+	cout << "[2] Delete a keyword            \n";
 	cout << "[3] Search                      \n";
 	cout << "[4] Auto-Suggestions            \n";
 	cout << "[5] Display Trie                \n";

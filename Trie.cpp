@@ -158,6 +158,10 @@ Trie::TrieNode* Trie::removeR(Trie::TrieNode *node, ItemType word, int level){
     }
 
     int index = (word[level] != 32) ? CHAR_TO_INDEX(word[level]) : 26;
+
+    // if the word not found, then cancel the operations and return
+    if (node->children[index] == nullptr) return node;
+
     node->children[index] = removeR(node->children[index], word, level + 1);
 
     if (isLastNode(node) && node->isEndOfWord){
