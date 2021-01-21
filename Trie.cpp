@@ -109,12 +109,12 @@ int Trie::autoSuggestionsHelper(ItemType word){
     // If there are are nodes below last 
     // matching character. 
     string prefix = word; 
-    suggestionsRec(curr, prefix); 
+    autoSuggestionsR(curr, prefix); 
     return 1; 
 }
 
 // recursive helper function to reach the end of nodes with given prefix
-void Trie::suggestionsRec(Trie::TrieNode* node, ItemType word){
+void Trie::autoSuggestionsR(Trie::TrieNode* node, ItemType word){
 
     if (node->isEndOfWord){
         cout << word << endl;
@@ -129,7 +129,7 @@ void Trie::suggestionsRec(Trie::TrieNode* node, ItemType word){
             else
                 word.push_back(32);
 
-            suggestionsRec(node->children[i], word);
+            autoSuggestionsR(node->children[i], word);
 
             // backtracking
             word.pop_back();

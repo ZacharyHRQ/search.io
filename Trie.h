@@ -32,11 +32,11 @@ class Trie
 
         bool isWordExist(ItemType word);
 
-        // helper funtions to print the suggestions
+        // helper funtions to print the auto suggestions
         int autoSuggestionsHelper(ItemType word);
 
         // recursive helper function to reach the end of nodes with given prefix
-        void suggestionsRec(TrieNode* node, ItemType word);
+        void autoSuggestionsR(TrieNode* node, ItemType word);
 
         // recursive helper funtion to access and remove the word by incrementing the level
         TrieNode* removeR(TrieNode* node, ItemType word, int level);
