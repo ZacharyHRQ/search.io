@@ -50,9 +50,30 @@ void Trie::insert(ItemType word){
     curr->isEndOfWord = true;
 }
 
+bool Trie::isWordExist(ItemType word){
+    TrieNode *curr = root;
+
+    for (int level = 0; level < word.length(); level++){
+        int index = (word[level] != 32) ? CHAR_TO_INDEX(word[level]) : 26;
+
+        if (curr->children[index] == nullptr) return false;
+
+        curr = curr->children[index];
+    }
+
+    return (curr != nullptr && curr->isEndOfWord);
+}
+
 // search for a word in Trie
 void Trie::search(ItemType word){
-    int result = printAutoSuggestions(word);
+    int isExist = isWordExist(word);
+
+    cout << "The word is" << (isExist ? " " : " not ") << "found in the Trie.\n";
+}
+
+// print the suggestions by the prefix given
+void Trie::printAutoSuggestions(ItemType word){
+    int result = autoSuggestionsHelper(word);
 
     if (result == -1) 
         cout << "No other strings found with this prefix\n"; 
@@ -61,8 +82,8 @@ void Trie::search(ItemType word){
         cout << "No string found with this prefix\n"; 
 }
 
-// print the suggestions by the prefix given
-int Trie::printAutoSuggestions(ItemType word){
+// helper funtions to print the auto suggestions
+int Trie::autoSuggestionsHelper(ItemType word){
     TrieNode *curr = root;
 
     for (int level = 0; level < word.length(); level++){
@@ -88,13 +109,12 @@ int Trie::printAutoSuggestions(ItemType word){
     // If there are are nodes below last 
     // matching character. 
     string prefix = word; 
-    suggestionsRec(curr, prefix); 
+    displayR(curr, prefix); 
     return 1; 
 }
 
-// recursive helper function to reach the end of nodes with given prefix
-void Trie::suggestionsRec(Trie::TrieNode* node, ItemType word){
-
+// recursive helper function to print out all the keywords in Trie by reaching every end of node
+void Trie::displayR(TrieNode* node, string word){
     if (node->isEndOfWord){
         cout << word << endl;
     }
@@ -108,7 +128,7 @@ void Trie::suggestionsRec(Trie::TrieNode* node, ItemType word){
             else
                 word.push_back(32);
 
-            suggestionsRec(node->children[i], word);
+            displayR(node->children[i], word);
 
             // backtracking
             word.pop_back();
@@ -148,6 +168,11 @@ Trie::TrieNode* Trie::removeR(Trie::TrieNode *node, ItemType word, int level){
     return node;
 }
 
+// display the full structure of Trie
+void Trie::display(){
+    displayR(root, "");
+}
+
 // reset the trie and initialise the trie to default again
 void Trie::reset(){
     resetR(root);
@@ -165,9 +190,9 @@ void Trie::resetR(TrieNode *node){
         return;
     }
 
-    for (int i = 0; i < MAX_SIZE; i++){
-        if (node->children[i]){
-            resetR(node->children[i]);
+    for (int level = 0; level < MAX_SIZE; level++){
+        if (node->children[level]){
+            resetR(node->children[level]);
         }
     }
 

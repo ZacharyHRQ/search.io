@@ -30,17 +30,22 @@ class Trie
         // check whether the TrieNode is the lastNode (no children)
         bool isLastNode(TrieNode* node);
 
-        // print the suggestions by the prefix given
-        int printAutoSuggestions(ItemType word);
+        bool isWordExist(ItemType word);
 
-        // recursive helper function to reach the end of nodes with given prefix
-        void suggestionsRec(TrieNode* node, ItemType word);
+        // helper funtions to print the auto suggestions
+        int autoSuggestionsHelper(ItemType word);
+
+        // recursive helper function to print out all the keywords in Trie by reaching every end of node
+        void displayR(TrieNode* node, string word);
 
         // recursive helper funtion to access and remove the word by incrementing the level
         TrieNode* removeR(TrieNode* node, ItemType word, int level);
 
         // recursive helper function to reset the trie
         void resetR(TrieNode* node);
+
+
+        
 
     public:
         // constructor
@@ -57,6 +62,9 @@ class Trie
 
         // search for a word in Trie
         void search(ItemType word);
+
+        // print the suggestions by the prefix given
+        void printAutoSuggestions(ItemType word);
 
         // display the full structure of Trie
         void display();
