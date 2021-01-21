@@ -50,9 +50,30 @@ void Trie::insert(ItemType word){
     curr->isEndOfWord = true;
 }
 
+bool Trie::isWordExist(ItemType word){
+    TrieNode *curr = root;
+
+    for (int level = 0; level < word.length(); level++){
+        int index = (word[level] != 32) ? CHAR_TO_INDEX(word[level]) : 26;
+
+        if (curr->children[index] == nullptr) return false;
+
+        curr = curr->children[index];
+    }
+
+    return (curr != nullptr && curr->isEndOfWord);
+}
+
 // search for a word in Trie
 void Trie::search(ItemType word){
-    int result = printAutoSuggestions(word);
+    int isExist = isWordExist(word);
+
+    cout << "The word is" << (isExist ? " " : " not ") << "found in the Trie.\n";
+}
+
+// print the suggestions by the prefix given
+void Trie::printAutoSuggestions(ItemType word){
+    int result = autoSuggestionsHelper(word);
 
     if (result == -1) 
         cout << "No other strings found with this prefix\n"; 
@@ -61,8 +82,8 @@ void Trie::search(ItemType word){
         cout << "No string found with this prefix\n"; 
 }
 
-// print the suggestions by the prefix given
-int Trie::printAutoSuggestions(ItemType word){
+// helper funtions to print the auto suggestions
+int Trie::autoSuggestionsHelper(ItemType word){
     TrieNode *curr = root;
 
     for (int level = 0; level < word.length(); level++){
@@ -165,9 +186,9 @@ void Trie::resetR(TrieNode *node){
         return;
     }
 
-    for (int i = 0; i < MAX_SIZE; i++){
-        if (node->children[i]){
-            resetR(node->children[i]);
+    for (int level = 0; level < MAX_SIZE; level++){
+        if (node->children[level]){
+            resetR(node->children[level]);
         }
     }
 
