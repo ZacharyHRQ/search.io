@@ -136,3 +136,23 @@ Trie::TrieNode* Trie::removeR(Trie::TrieNode *node, ItemType word, int level){
 
     return node;
 }
+
+void Trie::reset(){
+    resetR(root);
+    root = getNode();
+}
+
+void Trie::resetR(TrieNode *node){
+    // if (node == nullptr) return;
+    if (isLastNode(node)){
+        node = NULL;
+        delete (node);
+        return;
+    }
+
+    for (int i = 0; i < MAX_SIZE; i++){
+        if (node->children[i]){
+            resetR(node->children[i]);
+        }
+    }
+}

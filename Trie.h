@@ -36,6 +36,8 @@ class Trie
 
         TrieNode* removeR(TrieNode* node, ItemType word, int level);
 
+        void resetR(TrieNode* node);
+
     public:
         // constructor
         Trie();	
@@ -54,4 +56,6 @@ class Trie
 
         // display the full structure of Trie
         void display();
+
+        void reset();
 };

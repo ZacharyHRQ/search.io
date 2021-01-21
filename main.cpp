@@ -46,6 +46,13 @@ int main(){
             getline(cin, word);
             trie->search(word);
         }
+
+        else if (option == 5){
+            cin.ignore();
+        	cout << "[5] Reset Trie                  \n";
+            trie->reset();
+            cout << "The trie has been reset successfully.";
+        }
     }
 
     return 0;
