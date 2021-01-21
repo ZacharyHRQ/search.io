@@ -1,8 +1,14 @@
 // Trie.cpp - Implementation of Trie ADT using Pointers
 #include "Trie.h"
 
+// constructor of Trie
 Trie::Trie(){
     root = getNode();
+}
+
+// deconstructor of Trie to free up the memory
+Trie::~Trie(){
+    reset();
 }
 
 // Returns new trie node (initialized to NULLs) 
@@ -32,7 +38,7 @@ void Trie::insert(ItemType word){
     TrieNode *curr = root;
 
     for (int level = 0; level < word.length(); level++){
-        int index = (word[level] + 0 != 32) ? CHAR_TO_INDEX(word[level]) : 26;
+        int index = (word[level] != 32) ? CHAR_TO_INDEX(word[level]) : 26;
 
         if (curr->children[index] == nullptr)
             curr->children[index] = getNode();
@@ -44,6 +50,7 @@ void Trie::insert(ItemType word){
     curr->isEndOfWord = true;
 }
 
+// search for a word in Trie
 void Trie::search(ItemType word){
     int result = printAutoSuggestions(word);
 
@@ -54,11 +61,12 @@ void Trie::search(ItemType word){
         cout << "No string found with this prefix\n"; 
 }
 
+// print the suggestions by the prefix given
 int Trie::printAutoSuggestions(ItemType word){
     TrieNode *curr = root;
 
     for (int level = 0; level < word.length(); level++){
-        int index = (word[level] + 0 != 32) ? CHAR_TO_INDEX(word[level]) : 26;
+        int index = (word[level] != 32) ? CHAR_TO_INDEX(word[level]) : 26;
 
         if (curr->children[index] == nullptr) return 0;
 
@@ -84,6 +92,7 @@ int Trie::printAutoSuggestions(ItemType word){
     return 1; 
 }
 
+// recursive helper function to reach the end of nodes with given prefix
 void Trie::suggestionsRec(Trie::TrieNode* node, ItemType word){
 
     if (node->isEndOfWord){
@@ -105,4 +114,64 @@ void Trie::suggestionsRec(Trie::TrieNode* node, ItemType word){
             word.pop_back();
         }
     }
+}
+
+// removal of a keyword from trie if existed
+void Trie::remove(ItemType word){
+    root = removeR(root, word, 0);
+}
+
+// recursive helper funtion to access and remove the word by incrementing the level
+Trie::TrieNode* Trie::removeR(Trie::TrieNode *node, ItemType word, int level){
+    if (root == nullptr) return NULL;
+
+    if (level == word.length()){
+        if (node->isEndOfWord)
+            node->isEndOfWord = false;
+        
+        if (isLastNode(node)){
+            delete (node);
+            node = NULL;
+        }
+
+        return node;
+    }
+
+    int index = (word[level] != 32) ? CHAR_TO_INDEX(word[level]) : 26;
+    node->children[index] = removeR(node->children[index], word, level + 1);
+
+    if (isLastNode(node) && node->isEndOfWord){
+        delete (node);
+        node = NULL;
+    }
+
+    return node;
+}
+
+// reset the trie and initialise the trie to default again
+void Trie::reset(){
+    resetR(root);
+    root = getNode();
+}
+
+// mass deletion of all existing nodes
+// Starting from the root, it will keep recurring until it reaches the end of node
+// it will delete the node and free up the memory
+void Trie::resetR(TrieNode *node){
+
+    if (isLastNode(node)){
+        node = NULL;
+        delete (node);
+        return;
+    }
+
+    for (int i = 0; i < MAX_SIZE; i++){
+        if (node->children[i]){
+            resetR(node->children[i]);
+        }
+    }
+
+    // free up the current node as well after removing all its children
+    node = NULL;
+    delete (node);
 }
