@@ -32,7 +32,7 @@ void Trie::insert(ItemType word){
     TrieNode *curr = root;
 
     for (int level = 0; level < word.length(); level++){
-        int index = (word[level] + 0 != 32) ? CHAR_TO_INDEX(word[level]) : 26;
+        int index = (word[level] != 32) ? CHAR_TO_INDEX(word[level]) : 26;
 
         if (curr->children[index] == nullptr)
             curr->children[index] = getNode();
@@ -58,7 +58,7 @@ int Trie::printAutoSuggestions(ItemType word){
     TrieNode *curr = root;
 
     for (int level = 0; level < word.length(); level++){
-        int index = (word[level] + 0 != 32) ? CHAR_TO_INDEX(word[level]) : 26;
+        int index = (word[level] != 32) ? CHAR_TO_INDEX(word[level]) : 26;
 
         if (curr->children[index] == nullptr) return 0;
 
@@ -105,4 +105,34 @@ void Trie::suggestionsRec(Trie::TrieNode* node, ItemType word){
             word.pop_back();
         }
     }
+}
+
+void Trie::remove(ItemType word){
+    root = removeR(root, word, 0);
+}
+
+Trie::TrieNode* Trie::removeR(Trie::TrieNode *node, ItemType word, int level){
+    if (root == nullptr) return NULL;
+
+    if (level == word.length()){
+        if (node->isEndOfWord)
+            node->isEndOfWord = false;
+        
+        if (isLastNode(node)){
+            delete (node);
+            node = NULL;
+        }
+
+        return node;
+    }
+
+    int index = (word[level] != 32) ? CHAR_TO_INDEX(word[level]) : 26;
+    node->children[index] = removeR(node->children[index], word, level + 1);
+
+    if (isLastNode(node) && node->isEndOfWord){
+        delete (node);
+        node = NULL;
+    }
+
+    return node;
 }

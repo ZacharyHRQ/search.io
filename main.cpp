@@ -26,8 +26,16 @@ int main(){
             cout << "Enter a new keyword: ";
             string word;
             getline(cin, word);
-            cout << word.length() << endl;
             trie->insert(word);
+        }
+
+        else if (option == 2){
+            cin.ignore();
+            cout << "[2] Delete a new keyword        \n";
+            cout << "Enter a keyword for deleting: ";
+            string word;
+            getline(cin, word);
+            trie->remove(word);
         }
 
         else if (option == 3){
@@ -36,7 +44,6 @@ int main(){
             cout << "Enter a keyword for searching: ";
             string word;
             getline(cin, word);
-            cout << word.length() << endl;
             trie->search(word);
         }
     }

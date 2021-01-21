@@ -34,6 +34,8 @@ class Trie
 
         void suggestionsRec(TrieNode* node, ItemType word);
 
+        TrieNode* removeR(TrieNode* node, ItemType word, int level);
+
     public:
         // constructor
         Trie();	
@@ -45,7 +47,7 @@ class Trie
         void insert(ItemType word);
 
         // removal of a keyword
-        bool remove(ItemType word);
+        void remove(ItemType word);
 
         // search for a word in Trie
         void search(ItemType word);
