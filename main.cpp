@@ -57,13 +57,11 @@ int main(){
         }
 
         else if (option == 5){
-            cin.ignore();
             cout << "[5] Display Trie                \n";
             trie->display();
         }
 
         else if (option == 6){
-            cin.clear();
         	cout << "[6] Reset Trie                  \n";
             trie->reset();
             cout << "The trie has been reset successfully. \n";
