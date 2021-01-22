@@ -89,19 +89,16 @@ void Dictionary::remove(KeyType key){
 }
 
 ItemType Dictionary::get(KeyType key){
-  int index = hash(key);
-  Node *curr = items[index];
-  if(!curr){
-    return "";
-  }else{
-    Node *tmp = curr;
-    while(tmp){
-      if(tmp->key == key)return tmp->item;
-      tmp = tmp->next;
+    ItemType item;
+    int index = hash(key);
+    if (items[index]){
+        Node *curr = items[index];
+        while(curr){
+            if(curr->key == key) return curr->item;
+            curr = curr->next; 
+        }
     }
-  }
-
-  return "";
+    return item;
 }
 
 

@@ -57,6 +57,12 @@ int main()
             string word;
             getline(cin, word);
             trie->search(word);
+
+            // when both trie and dict access word , it gives segmentation fault , hmmm 
+            //trie->search(word);
+            //cout << d.get(word) << endl;
+
+            //if(trie->isWordExist(word)) cout << d.get(word) << endl;
         }
 
         else if (option == 4)
