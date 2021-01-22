@@ -3,7 +3,7 @@
 using namespace std;
 
 Dictionary::Dictionary(){
-  for(int i = 0; i < MAX_SIZE; i++){
+  for(int i = 0; i < MAX_LEN; i++){
     items[i] = NULL;
   }
 }
@@ -33,7 +33,7 @@ int Dictionary::hash(KeyType key)
 		if (charvalue(key[i]) < 0)  // not an alphabet
 			continue;
 		total = total * 52 + charvalue(key[i]);
-	  total %= MAX_SIZE;
+	  total %= MAX_LEN;
 	}
 
   return total;
@@ -109,14 +109,12 @@ ItemType Dictionary::get(KeyType key){
 int Dictionary::getLength(){return size;}
 
 void Dictionary::print(){ 
-  for (int i = 0; i < MAX_SIZE ; i++)
+  for (int i = 0; i < MAX_LEN; i++)
     {
         Node* curr = items[i];
         if(curr){
-            cout << curr->key << " :" << curr->item << endl;
-
-            while(curr->next){
-                cout << curr->next->key << " :" << curr->next->item << endl;
+            while(curr){
+                cout << curr->key << " : " << curr->item << endl;
                 curr = curr->next;
             }
         }
