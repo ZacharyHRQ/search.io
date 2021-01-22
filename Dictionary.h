@@ -3,7 +3,7 @@
 #include<iostream>
 using namespace std;
 
-const int MAX_SIZE = 101;
+const int MAX_LEN = 300000;
 typedef string KeyType;
 typedef string ItemType;
 
@@ -18,7 +18,7 @@ private:
 		Node     *next;	// pointer pointing to next item with same search key
 	};
 
-	Node *items[MAX_SIZE];
+	Node *items[MAX_LEN];
 	int  size;			// number of items in the Dictionary
 
 public:

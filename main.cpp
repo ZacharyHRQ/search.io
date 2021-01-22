@@ -1,11 +1,14 @@
 #include <iostream>
+#include <fstream>
 #include "Trie.h"
+#include "Dictionary.h"
 #include <string>
 
 using namespace std;
 
 void displayMenu();
 void initTrie(Trie* trie);
+void initDict(Dictionary& d);
 
 int main(){
     ios_base::sync_with_stdio(false);
@@ -13,6 +16,9 @@ int main(){
 
     Trie *trie = new Trie;
     initTrie(trie);
+
+    Dictionary d;
+    initDict(d);
 
     int option = -1;
 
@@ -67,5 +73,29 @@ void initTrie(Trie* trie){
     trie->insert("chaewon pretty");
     trie->insert("chaewon fairy");
     trie->insert("chaewon is my wife");
+    trie->insert("apple");
+    trie->insert("book");
+    trie->insert("cup");
+    trie->insert("red");
+    trie->insert("wet");
+    trie->insert("dog");
+    trie->insert("big");
+    trie->insert("fast");
+    trie->insert("lunch");
+    trie->insert("five");
+    
 }
 
+void initDict(Dictionary& d){
+    string data,word,define;
+    ifstream file("data.txt");
+    if(file.is_open()){
+        while(getline(file,data)){
+            int pos = data.find(":");
+            word = data.substr(0,pos);
+            define = data.substr(pos+1);
+            d.add(word,define);
+        }
+        file.close();
+    }
+}

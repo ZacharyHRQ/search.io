@@ -36,3 +36,5 @@ output.out
 .vscode/
 p
 test.cpp
+run.cpp
+
