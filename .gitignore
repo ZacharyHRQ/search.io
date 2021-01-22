@@ -35,3 +35,4 @@ output.out
 .DS_Store
 .vscode/
 p
+test.cpp
