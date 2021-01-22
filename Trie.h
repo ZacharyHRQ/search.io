@@ -61,7 +61,7 @@ class Trie
         void remove(ItemType word);
 
         // search for a word in Trie
-        void search(ItemType word);
+        bool search(ItemType word);
 
         // print the suggestions by the prefix given
         void printAutoSuggestions(ItemType word);

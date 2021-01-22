@@ -56,13 +56,16 @@ int main()
             cout << "Enter a keyword for searching: ";
             string word;
             getline(cin, word);
-            trie->search(word);
+            bool isFound = trie->search(word);
 
-            // when both trie and dict access word , it gives segmentation fault , hmmm 
-            //trie->search(word);
-            //cout << d.get(word) << endl;
+            if (isFound){
+                string definition = d.get(word);
+                if (definition.length() > 0)
+                    cout << "The definition of " << word << " is " << definition << endl;
+                else
+                    cout << "Oops. The definition is not available in the dictionary at the moment.\n";
+            }
 
-            //if(trie->isWordExist(word)) cout << d.get(word) << endl;
         }
 
         else if (option == 4)

@@ -65,10 +65,12 @@ bool Trie::isWordExist(ItemType word){
 }
 
 // search for a word in Trie
-void Trie::search(ItemType word){
-    int isExist = isWordExist(word);
+bool Trie::search(ItemType word){
+    bool isExist = isWordExist(word);
 
     cout << "The word is" << (isExist ? " " : " not ") << "found in the Trie.\n";
+
+    return isExist;
 }
 
 // print the suggestions by the prefix given
