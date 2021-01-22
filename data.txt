@@ -1,29 +1,19 @@
-apple
-a rounded edible fruit, usually red, yellow, or green, that grows from a tree. Mary likes to eat apples because they are crunchy and delicious.
+apple:a rounded edible fruit, usually red, yellow, or green, that grows from a tree.
 
-book
-a set of written or printed sheets of paper bounded together for the purpose of reading. Matthew likes to read books more than he likes to watch movies.
+book:a set of written or printed sheets of paper bounded together for the purpose of reading.
 
-cup
-an open vessel used for drinking. Rob drinks water from a cup
+cup:an open vessel used for drinking.
 
-red
-a color. Maria’s favorite color in the rainbow is red.
+red:a color.
 
-wet
-consisting of, containing, or covered in liquid such as water. Chang came inside to dry off after getting wet in the rain.
+wet:consisting of, containing, or covered in liquid such as water.
 
-dog
-a four-legged domesticated mammal, a common household pet. Tom went to the animal shelter to adopt a dog for his son.
+dog:a four-legged domesticated mammal, a common household pet.
 
-big
-large or great in dimension, bulk, or size. Mario needs a big space to store the large amount of paintings he owns
+big:large or great in dimension, bulk, or size.
 
-fast
-characterized by quick or swift movement. You have to be a fast runner to win the race.
+fast:characterized by quick or swift movement.
 
-lunch
-a meal taken in the middle of the day. Marne always eats a sandwich for lunch at noon.
+lunch:a meal taken in the middle of the day.
 
-five
-a number that is more than four and less than six, something that has five units. Lucille gets off work at five.
+five:a number that is more than four and less than six, something that has five units.
