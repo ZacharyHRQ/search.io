@@ -113,10 +113,8 @@ void Dictionary::print(){
     {
         Node* curr = items[i];
         if(curr){
-            cout << curr->key << " :" << curr->item << endl;
-
-            while(curr->next){
-                cout << curr->next->key << " :" << curr->next->item << endl;
+            while(curr){
+                cout << curr->key << " : " << curr->item << endl;
                 curr = curr->next;
             }
         }
