@@ -138,6 +138,32 @@ void Trie::displayR(TrieNode* node, string word){
     }
 }
 
+void Trie::displayTrieR(TrieNode* node,char str[],int level)
+{
+   // If node is leaf node, it indicates end 
+    // of string, so a null character is added 
+    // and string is displayed 
+    if (isLastNode(node))  
+    { 
+        str[level] = '\0'; 
+        cout << str << endl; 
+    } 
+  
+    int i; 
+    for (i = 0; i < MAX_SIZE; i++)  
+    { 
+        // if NON NULL child is found 
+        // add parent key to str and 
+        // call the display function recursively 
+        // for child node 
+        if (node->children[i])  
+        { 
+            str[level] = i + 'a'; 
+            displayTrieR(node->children[i], str , level+1);
+        } 
+    }  
+}
+
 // removal of a keyword from trie if existed
 void Trie::remove(ItemType word){
     root = removeR(root, word, 0);
@@ -176,7 +202,9 @@ Trie::TrieNode* Trie::removeR(Trie::TrieNode *node, ItemType word, int level){
 
 // display the full structure of Trie
 void Trie::display(){
-    displayR(root, "");
+    int level = 0; 
+    char str[40];
+    displayTrieR(root,str,level);
 }
 
 // reset the trie and initialise the trie to default again

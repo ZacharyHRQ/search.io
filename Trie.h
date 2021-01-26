@@ -41,6 +41,9 @@ class Trie
         // recursive helper funtion to access and remove the word by incrementing the level
         TrieNode* removeR(TrieNode* node, ItemType word, int level);
 
+        // recursive helper funtion to display the contents of the Trie
+        void displayTrieR(TrieNode* node, char str[] , int level);
+
         // recursive helper function to reset the trie
         void resetR(TrieNode* node);
 
