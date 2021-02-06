@@ -3,10 +3,9 @@
 #include<iostream>
 using namespace std;
 
-const int MAX_LEN = 300000;
 typedef string KeyType;
 typedef string ItemType;
-
+const int DEFAULT_TABLE_SIZE = 30;
 
 class Dictionary
 {
@@ -18,8 +17,13 @@ private:
 		Node     *next;	// pointer pointing to next item with same search key
 	};
 
-	Node *items[MAX_LEN];
-	int  size;			// number of items in the Dictionary
+	int size;			// number of items in the Dictionary
+    float threshold;    // limit for the length of each chain
+    int maxSize;        // limit for the size of the table with threshold
+    int tableSize;      // the max size of the table 
+	Node *items[DEFAULT_TABLE_SIZE]; 
+        
+
 
 public:
 
@@ -42,5 +46,7 @@ public:
 	int getLength();
 
 	void print();
+
+	void resize();
 
 };

@@ -97,7 +97,13 @@ int main()
         }
 
         else if (option == 6){
-        	cout << "[6] Reset Trie                  \n";
+            cout << "[6] Universal search             \n";
+
+            search();
+        }
+
+        else if (option == 7){
+        	cout << "[7] Reset Trie                  \n";
             trie->reset();
             cout << "The trie has been reset successfully. \n";
         }

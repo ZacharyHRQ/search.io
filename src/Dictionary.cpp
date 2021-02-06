@@ -2,8 +2,13 @@
 #include "Dictionary.h" 
 using namespace std;
 
+
 Dictionary::Dictionary(){
-  for(int i = 0; i < MAX_LEN; i++){
+  threshold = 0.75f;
+  maxSize = 96;
+  tableSize = DEFAULT_TABLE_SIZE;
+  size = 0;
+  for(int i = 0; i < tableSize; i++){
     items[i] = NULL;
   }
 }
@@ -24,6 +29,7 @@ int charvalue(char c)
 }
 
 
+
 int Dictionary::hash(KeyType key)
 {
 	int total = charvalue(key[0]);
@@ -33,7 +39,7 @@ int Dictionary::hash(KeyType key)
 		if (charvalue(key[i]) < 0)  // not an alphabet
 			continue;
 		total = total * 52 + charvalue(key[i]);
-	  total %= MAX_LEN;
+	  total %= tableSize;
 	}
 
   return total;
@@ -62,6 +68,7 @@ bool Dictionary::add(KeyType newKey, ItemType newItem){
     curr->next = newNode;
   }
   size++;
+  if(size >= maxSize) resize();
   return true;
 }
 
@@ -106,7 +113,7 @@ ItemType Dictionary::get(KeyType key){
 int Dictionary::getLength(){return size;}
 
 void Dictionary::print(){ 
-  for (int i = 0; i < MAX_LEN; i++)
+  for (int i = 0; i < tableSize; i++)
     {
         Node* curr = items[i];
         if(curr){
@@ -120,3 +127,26 @@ void Dictionary::print(){
 }
 
 bool Dictionary::isEmpty(){return bool(size);}
+
+void Dictionary::resize(){
+		int oldTableSize = tableSize;
+		tableSize *= 2;
+		maxSize = (int) (tableSize * threshold);
+		Node **oldItems = items;
+		Node *newItems[tableSize];
+		for (int i = 0; i < tableSize; i++)
+			newItems[i] = NULL;
+		size = 0;
+		for (int hash = 0; hash < oldTableSize; hash++)
+		if (newItems[hash] != NULL) {
+			Node* oldentry;
+			Node * entry = oldItems[hash];
+			while (entry != NULL) {
+					add(entry->key, entry->item);
+					oldentry = entry; 
+					entry = entry->next; 
+					delete oldentry;
+			}
+		}
+		delete[] oldItems;
+}	
