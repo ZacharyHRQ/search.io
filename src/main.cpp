@@ -99,7 +99,7 @@ int main()
         else if (option == 6){
             cout << "[6] Universal search             \n";
 
-            search();
+            // search();
         }
 
         else if (option == 7){
@@ -157,6 +157,7 @@ void initTrie(Trie *trie)
     trie->insert("5");
 }
 
+// reading from data file , loading into dictionary
 void initDict(Dictionary &d)
 {
     string data, word, define;
@@ -183,3 +184,9 @@ string convertStringToLower(string s){
     cout << res << endl;
     return res;
 }
+
+void search(){ 
+
+}
+
+vector<string> 

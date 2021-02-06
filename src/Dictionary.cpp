@@ -68,7 +68,10 @@ bool Dictionary::add(KeyType newKey, ItemType newItem){
     curr->next = newNode;
   }
   size++;
-  if(size >= maxSize) resize();
+  if(size >= maxSize) {
+    cout << "resize" << endl; 
+    resize();
+  }
   return true;
 }
 

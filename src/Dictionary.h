@@ -3,8 +3,9 @@
 #include<iostream>
 using namespace std;
 
-typedef string KeyType;
-typedef string ItemType;
+template<class T, class K>
+K KeyType;
+T ItemType;
 const int DEFAULT_TABLE_SIZE = 30;
 
 class Dictionary
