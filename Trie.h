@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <vector>
 using namespace std;
 
 const int MAX_SIZE = 27; // (26 characters + empty space)
@@ -33,10 +34,10 @@ class Trie
         bool isWordExist(ItemType word);
 
         // helper funtions to print the auto suggestions
-        int autoSuggestionsHelper(ItemType word);
+        void searchPrefixHelper(ItemType word, vector<string> &result);
 
         // recursive helper function to print out all the keywords in Trie by reaching every end of node
-        void displayR(TrieNode* node, string word);
+        void searchR(TrieNode* node, string word, vector<string> &result);
 
         // recursive helper funtion to access and remove the word by incrementing the level
         TrieNode* removeR(TrieNode* node, ItemType word, int level);
@@ -61,13 +62,13 @@ class Trie
         void remove(ItemType word);
 
         // search for a word in Trie
-        bool search(ItemType word);
+        bool searchExact(ItemType word);
 
         // print the suggestions by the prefix given
-        void printAutoSuggestions(ItemType word);
+        vector<string> searchPrefix(ItemType word);
 
-        // display the full structure of Trie
-        void display();
+        // get all words in trie
+        vector<string> getAllWords();
 
         // reset the trie to default
         void reset();

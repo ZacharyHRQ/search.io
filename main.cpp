@@ -52,11 +52,11 @@ int main()
         else if (option == 3)
         {
             cin.ignore();
-            cout << "[3] Search                      \n";
-            cout << "Enter a keyword for searching: ";
+            cout << "[3] Exact Search                \n";
+            cout << "Enter a keyword for exact searching: ";
             string word;
             getline(cin, word);
-            bool isFound = trie->search(word);
+            bool isFound = trie->searchExact(word);
 
             if (isFound){
                 string definition = d.get(word);
@@ -64,6 +64,8 @@ int main()
                     cout << "The definition of " << word << " is " << definition << endl;
                 else
                     cout << "Oops. The definition is not available in the dictionary at the moment.\n";
+            } else{
+                cout << "The word is not found in the Trie.\n";
             }
 
         }
@@ -71,16 +73,26 @@ int main()
         else if (option == 4)
         {
             cin.ignore();
-            cout << "[4] Auto-Suggestions            \n";
-            cout << "Enter a keyword for auto-suggestions: ";
+            cout << "[4] Prefix Search               \n";
+            cout << "Enter a keyword for prefix searching: ";
             string word;
             getline(cin, word);
-            trie->printAutoSuggestions(word);
+
+            vector<string> result = trie->searchPrefix(word);
+            if (result.size() == 0){
+                cout << "No string found with this prefix\n";
+            } else {
+                for (string w: result)
+                    cout << w << endl;
+            }
         }
 
         else if (option == 5){
             cout << "[5] Display Trie                \n";
-            trie->display();
+
+            for (string w: trie->getAllWords()){
+                cout << w << endl;
+            }
         }
 
         else if (option == 6){
@@ -103,8 +115,8 @@ void displayMenu()
     cout << "--------------------------------\n";
     cout << "[1] Insert a new keyword        \n";
     cout << "[2] Delete a keyword            \n";
-    cout << "[3] Search                      \n";
-    cout << "[4] Auto-Suggestions            \n";
+    cout << "[3] Exact Search                \n";
+    cout << "[4] Prefix Search               \n";
     cout << "[5] Display Trie                \n";
     cout << "[6] Reset Trie                  \n";
     cout << "[0] Exit                        \n";

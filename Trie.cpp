@@ -65,33 +65,29 @@ bool Trie::isWordExist(ItemType word){
 }
 
 // search for a word in Trie
-bool Trie::search(ItemType word){
+bool Trie::searchExact(ItemType word){
     bool isExist = isWordExist(word);
-
-    cout << "The word is" << (isExist ? " " : " not ") << "found in the Trie.\n";
 
     return isExist;
 }
 
 // print the suggestions by the prefix given
-void Trie::printAutoSuggestions(ItemType word){
-    int result = autoSuggestionsHelper(word);
+vector<string> Trie::searchPrefix(ItemType word){
+    vector<string> result;
 
-    if (result == -1) 
-        cout << "No other strings found with this prefix\n"; 
-
-    else if (result == 0) 
-        cout << "No string found with this prefix\n"; 
+    searchPrefixHelper(word, result);
+ 
+    return result;
 }
 
 // helper funtions to print the auto suggestions
-int Trie::autoSuggestionsHelper(ItemType word){
+void Trie::searchPrefixHelper(ItemType word, vector<string> &result){
     TrieNode *curr = root;
 
     for (int level = 0; level < word.length(); level++){
         int index = (word[level] != 32) ? CHAR_TO_INDEX(word[level]) : 26;
 
-        if (curr->children[index] == nullptr) return 0;
+        if (curr->children[index] == nullptr) return;
 
         curr = curr->children[index];
     }
@@ -105,20 +101,19 @@ int Trie::autoSuggestionsHelper(ItemType word){
     if (isLast) 
     { 
         cout << word << endl; 
-        return -1; 
+        return;
     } 
   
     // If there are are nodes below last 
     // matching character. 
     string prefix = word; 
-    displayR(curr, prefix); 
-    return 1; 
+    searchR(curr, prefix, result); 
 }
 
 // recursive helper function to print out all the keywords in Trie by reaching every end of node
-void Trie::displayR(TrieNode* node, string word){
+void Trie::searchR(TrieNode* node, string word, vector<string> &result){
     if (node->isEndOfWord){
-        cout << word << endl;
+        result.push_back(word);
     }
 
     if (isLastNode(node)) return;
@@ -130,7 +125,7 @@ void Trie::displayR(TrieNode* node, string word){
             else
                 word.push_back(32);
 
-            displayR(node->children[i], word);
+            searchR(node->children[i], word, result);
 
             // backtracking
             word.pop_back();
@@ -174,9 +169,13 @@ Trie::TrieNode* Trie::removeR(Trie::TrieNode *node, ItemType word, int level){
     return node;
 }
 
-// display the full structure of Trie
-void Trie::display(){
-    displayR(root, "");
+// get all words in trie
+vector<string> Trie::getAllWords(){
+    vector<string> result;
+
+    searchR(root, "", result);
+
+    return result;
 }
 
 // reset the trie and initialise the trie to default again
