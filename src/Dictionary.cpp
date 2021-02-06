@@ -2,8 +2,8 @@
 #include "Dictionary.h" 
 using namespace std;
 
-
-Dictionary::Dictionary(){
+template<typename KeyType, typename ItemType>
+Dictionary<KeyType,ItemType>::Dictionary(){
   threshold = 0.75f;
   maxSize = 96;
   tableSize = DEFAULT_TABLE_SIZE;
@@ -13,7 +13,8 @@ Dictionary::Dictionary(){
   }
 }
 
-Dictionary::~Dictionary(){}
+template<typename KeyType, typename ItemType>
+Dictionary<KeyType,ItemType>::~Dictionary(){}
 
 int charvalue(char c)
 {
@@ -28,9 +29,8 @@ int charvalue(char c)
 		return -1;
 }
 
-
-
-int Dictionary::hash(KeyType key)
+template<typename KeyType, typename ItemType>
+int Dictionary<KeyType,ItemType>::hash(KeyType key)
 {
 	int total = charvalue(key[0]);
 
@@ -45,7 +45,8 @@ int Dictionary::hash(KeyType key)
   return total;
 }
 
-bool Dictionary::add(KeyType newKey, ItemType newItem){  
+template<typename KeyType, typename ItemType>
+bool Dictionary<KeyType,ItemType>::add(KeyType newKey, ItemType newItem){  
   int index = hash(newKey);
   Node* curr = items[index];
   Node *newNode = new Node;
@@ -75,7 +76,8 @@ bool Dictionary::add(KeyType newKey, ItemType newItem){
   return true;
 }
 
-void Dictionary::remove(KeyType key){
+template<typename KeyType, typename ItemType>
+void Dictionary<KeyType,ItemType>::remove(KeyType key){
   int index = hash(key);
   Node *curr = items[index]; 
   if(curr){
@@ -98,7 +100,8 @@ void Dictionary::remove(KeyType key){
   }
 }
 
-ItemType Dictionary::get(KeyType key){
+template<typename KeyType, typename ItemType>
+ItemType Dictionary<KeyType,ItemType>::get(KeyType key){
     ItemType item;
     int index = hash(key);
     if (items[index]){
@@ -111,11 +114,11 @@ ItemType Dictionary::get(KeyType key){
     return item;
 }
 
+template<typename KeyType, typename ItemType>
+int Dictionary<KeyType,ItemType>::getLength(){return size;}
 
-
-int Dictionary::getLength(){return size;}
-
-void Dictionary::print(){ 
+template<typename KeyType, typename ItemType>
+void Dictionary<KeyType,ItemType>::print(){ 
   for (int i = 0; i < tableSize; i++)
     {
         Node* curr = items[i];
@@ -129,9 +132,11 @@ void Dictionary::print(){
     }
 }
 
-bool Dictionary::isEmpty(){return bool(size);}
+template<typename KeyType, typename ItemType>
+bool Dictionary<KeyType,ItemType>::isEmpty(){return bool(size);}
 
-void Dictionary::resize(){
+template<typename KeyType, typename ItemType>
+void Dictionary<KeyType,ItemType>::resize(){
 		int oldTableSize = tableSize;
 		tableSize *= 2;
 		maxSize = (int) (tableSize * threshold);

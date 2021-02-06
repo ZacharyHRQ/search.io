@@ -3,10 +3,8 @@
 #include<iostream>
 using namespace std;
 
-template<class T, class K>
-K KeyType;
-T ItemType;
 const int DEFAULT_TABLE_SIZE = 30;
+template<typename KeyType, typename ItemType>
 
 class Dictionary
 {
@@ -34,6 +32,7 @@ public:
 	// destructor
 	~Dictionary();
 
+	// hash function
 	int hash(KeyType key);
 
 	bool add(KeyType newKey, ItemType newItem);

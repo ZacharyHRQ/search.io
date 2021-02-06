@@ -3,12 +3,13 @@
 #include "Trie.cpp"
 #include "Dictionary.cpp"
 #include <string>
+#include <vector>
 
 using namespace std;
 
 void displayMenu();
 void initTrie(Trie *trie);
-void initDict(Dictionary &d);
+void initDict(Dictionary<string,string> &d);
 string convertStringToLower(string s);
 
 int main()
@@ -19,7 +20,7 @@ int main()
     Trie *trie = new Trie;
     initTrie(trie);
 
-    Dictionary d;
+    Dictionary<string,string> d;
     initDict(d);
 
     int option = -1;
@@ -125,7 +126,8 @@ void displayMenu()
     cout << "[3] Exact Search                \n";
     cout << "[4] Prefix Search               \n";
     cout << "[5] Display Trie                \n";
-    cout << "[6] Reset Trie                  \n";
+    cout << "[6] Universal Search            \n";
+    cout << "[7] Reset Trie                  \n";
     cout << "[0] Exit                        \n";
     cout << "--------------------------------\n";
     cout << "Enter option : ";
@@ -158,7 +160,7 @@ void initTrie(Trie *trie)
 }
 
 // reading from data file , loading into dictionary
-void initDict(Dictionary &d)
+void initDict(Dictionary<string,string> &d)
 {
     string data, word, define;
     ifstream file("../data/data.txt");
@@ -185,8 +187,25 @@ string convertStringToLower(string s){
     return res;
 }
 
-void search(){ 
-
+vector<string> getWordsFromFile(){
+   string data, word;
+   vector<string> words;
+   ifstream file("../data/data.txt");
+   if (file.is_open())
+   {
+        while (getline(file, data))
+        {
+            int pos = data.find(":");
+            word = data.substr(0, pos);
+            if(word.size()) 
+                words.push_back(word);
+        }
+        file.close();
+   } 
+   return words;
 }
 
-vector<string> 
+void search(){ 
+    vector<string> words = getWordsFromFile();
+}
+
