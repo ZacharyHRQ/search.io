@@ -3,7 +3,7 @@
 using namespace std;
 
 Dictionary::Dictionary(){
-  for(int i = 0; i < MAX_SIZE; i++){
+  for(int i = 0; i < MAX_LEN; i++){
     items[i] = NULL;
   }
 }
@@ -33,7 +33,7 @@ int Dictionary::hash(KeyType key)
 		if (charvalue(key[i]) < 0)  // not an alphabet
 			continue;
 		total = total * 52 + charvalue(key[i]);
-	  total %= MAX_SIZE;
+	  total %= MAX_LEN;
 	}
 
   return total;
@@ -89,19 +89,16 @@ void Dictionary::remove(KeyType key){
 }
 
 ItemType Dictionary::get(KeyType key){
-  int index = hash(key);
-  Node *curr = items[index];
-  if(!curr){
-    return "";
-  }else{
-    Node *tmp = curr;
-    while(tmp){
-      if(tmp->key == key)return tmp->item;
-      tmp = tmp->next;
+    ItemType item;
+    int index = hash(key);
+    if (items[index]){
+        Node *curr = items[index];
+        while(curr){
+            if(curr->key == key) return curr->item;
+            curr = curr->next; 
+        }
     }
-  }
-
-  return "";
+    return item;
 }
 
 
@@ -109,14 +106,12 @@ ItemType Dictionary::get(KeyType key){
 int Dictionary::getLength(){return size;}
 
 void Dictionary::print(){ 
-  for (int i = 0; i < MAX_SIZE ; i++)
+  for (int i = 0; i < MAX_LEN; i++)
     {
         Node* curr = items[i];
         if(curr){
-            cout << curr->key << " :" << curr->item << endl;
-
-            while(curr->next){
-                cout << curr->next->key << " :" << curr->next->item << endl;
+            while(curr){
+                cout << curr->key << " : " << curr->item << endl;
                 curr = curr->next;
             }
         }
