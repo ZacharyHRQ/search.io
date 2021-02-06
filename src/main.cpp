@@ -11,6 +11,7 @@ void displayMenu();
 void initTrie(Trie *trie);
 void initDict(Dictionary<string,string> &d);
 string convertStringToLower(string s);
+vector<string> search(string pat);
 
 int main()
 {
@@ -22,6 +23,7 @@ int main()
 
     Dictionary<string,string> d;
     initDict(d);
+    ;
 
     int option = -1;
 
@@ -99,8 +101,12 @@ int main()
 
         else if (option == 6){
             cout << "[6] Universal search             \n";
-
-            // search();
+            cout << "Enter a keyword for universal searching: ";
+            string word;
+            getline(cin, word);
+            for(string w : search(word)){ 
+                cout << w << endl;
+            }
         }
 
         else if (option == 7){
@@ -205,7 +211,111 @@ vector<string> getWordsFromFile(){
    return words;
 }
 
-void search(){ 
-    vector<string> words = getWordsFromFile();
+// Fills lps[] for given patttern pat[0..M-1]
+void computeLPSArray(string pat, int M, int *lps)
+{
+    // length of the previous longest prefix suffix
+    int len = 0;
+
+    lps[0] = 0; // lps[0] is always 0
+
+    // the loop calculates lps[i] for i = 1 to M-1
+    int i = 1;
+    while (i < M)
+    {
+        if (pat[i] == pat[len])
+        {
+            len++;
+            lps[i] = len;
+            i++;
+        }
+        else // (pat[i] != pat[len])
+        {
+            // This is tricky. Consider the example.
+            // AAACAAAA and i = 7. The idea is similar
+            // to search step.
+            if (len != 0)
+            {
+                len = lps[len - 1];
+
+                // Also, note that we do not increment
+                // i here
+            }
+            else // if (len == 0)
+            {
+                lps[i] = 0;
+                i++;
+            }
+        }
+    }
 }
 
+// Prints occurrences of txt[] in pat[]
+int KMPSearch(string pat, string txt)
+{
+    int M = pat.size();
+    int N = txt.size();
+
+    // create lps[] that will hold the longest prefix suffix
+    // values for pattern
+    int lps[M];
+
+    // Preprocess the pattern (calculate lps[] array)
+    computeLPSArray(pat, M, lps);
+
+    int i = 0; // index for txt[]
+    int j = 0; // index for pat[]
+    while (i < N)
+    {
+        if (pat[j] == txt[i])
+        {
+            j++;
+            i++;
+        }
+
+        if (j == M)
+        {
+            // printf("Found pattern at index %d ", i - j);
+            return i - j;
+            j = lps[j - 1];
+        }
+
+        // mismatch after j matches
+        else if (i < N && pat[j] != txt[i])
+        {
+            // Do not match lps[0..lps[j-1]] characters,
+            // they will match anyway
+            if (j != 0)
+                j = lps[j - 1];
+            else
+                i = i + 1;
+        }
+    }
+    return -1;
+}
+
+// GLOBAL Search
+
+vector<string> search(string pat)
+{
+    vector<string> words = getWordsFromFile();
+    vector<string> results;
+
+    auto start = chrono::high_resolution_clock::now();
+
+    for (auto str : words)
+    {
+        if (KMPSearch(pat, str) != -1)
+        {
+            results.push_back(str);
+        }
+    }
+
+    auto stop = chrono::high_resolution_clock::now();
+    auto duration = chrono::duration_cast<chrono::nanoseconds>(stop - start);
+
+    cerr << "\033[32m\n"
+         << results.size() << " results in " << double(duration.count() / double(1000000)) << " ms.\033[0m\n\n";
+
+    return results;
+}
