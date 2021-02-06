@@ -186,7 +186,7 @@ Trie::TrieNode* Trie::removeR(Trie::TrieNode *node, ItemType word, int level){
 
     node->children[index] = removeR(node->children[index], word, level + 1);
 
-    if (isLastNode(node) && node->isEndOfWord){
+    if (isLastNode(node) && !node->isEndOfWord){
         delete (node);
         node = NULL;
     }
