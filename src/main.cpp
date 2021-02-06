@@ -126,25 +126,27 @@ void displayMenu()
 
 void initTrie(Trie *trie)
 {
-    trie->insert("apple");
-    trie->insert("apple iphone ten");
-    trie->insert("apple m one");
-    trie->insert("apple mac");
-    trie->insert("apple m one chip");
-    trie->insert("apple watch");
-    trie->insert("apple imac");
-    trie->insert("apple stocks");
-    trie->insert("hello worldz");
-    trie->insert("apple");
-    trie->insert("book");
-    trie->insert("cup");
-    trie->insert("red");
-    trie->insert("wet");
-    trie->insert("dog");
-    trie->insert("big");
-    trie->insert("fast");
-    trie->insert("lunch");
-    trie->insert("five");
+    trie->insert("apple m1");
+    trie->insert("apple iphone 10");
+    trie->insert("apple iphone 12");
+    trie->insert("apple macbook pro 2019");
+    trie->insert("apple macbook pro 2020");
+    // trie->insert("apple mac");
+    // trie->insert("apple m one chip");
+    // trie->insert("apple watch");
+    // trie->insert("apple imac");
+    // trie->insert("apple stocks");
+    // trie->insert("hello worldz");
+    // trie->insert("apple");
+    // trie->insert("book");
+    // trie->insert("cup");
+    // trie->insert("red");
+    // trie->insert("wet");
+    // trie->insert("dog");
+    // trie->insert("big");
+    // trie->insert("fast");
+    // trie->insert("lunch");
+    // trie->insert("five");
 }
 
 void initDict(Dictionary &d)

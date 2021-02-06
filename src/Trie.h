@@ -4,7 +4,7 @@
 #include <chrono>
 using namespace std;
 
-const int MAX_SIZE = 27; // (26 characters + empty space)
+const int MAX_SIZE = 37; // (26 characters + empty space + 10 numbers(0-9))
 typedef string ItemType;
 
 #define CHAR_TO_INDEX(c) ((int)c - (int)'a') 
@@ -14,7 +14,7 @@ class Trie
     private:
         struct TrieNode
         {
-            // TrieNode pointers list with size of 27 representing its children
+            // TrieNode pointers list with size of 37 representing its children
             struct TrieNode *children[MAX_SIZE];
 
             // isWordEnd is true if the node represents end of a word 

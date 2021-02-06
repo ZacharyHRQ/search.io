@@ -23,6 +23,15 @@ Trie::TrieNode* Trie::getNode(){
     return node;
 }
 
+int hashCharToIndex(char c){
+    if (c == 32) // if the char is space
+        return 26;
+    else if (isdigit(c))
+        return 27 + int(c) - 48;
+    else
+        return CHAR_TO_INDEX(c);
+}
+
 // check whether the TrieNode is the lastNode (no children)
 bool Trie::isLastNode(Trie::TrieNode* node){
     for (int i = 0; i < MAX_SIZE; i++){
@@ -38,8 +47,8 @@ void Trie::insert(ItemType word){
     TrieNode *curr = root;
 
     for (int level = 0; level < word.length(); level++){
-        int index = (word[level] != 32) ? CHAR_TO_INDEX(word[level]) : 26;
-
+        int index = hashCharToIndex(word[level]);
+        cout << word[level] << " " << index << endl;
         if (curr->children[index] == nullptr)
             curr->children[index] = getNode();
         
@@ -54,7 +63,7 @@ bool Trie::isWordExist(ItemType word){
     TrieNode *curr = root;
 
     for (int level = 0; level < word.length(); level++){
-        int index = (word[level] != 32) ? CHAR_TO_INDEX(word[level]) : 26;
+        int index = hashCharToIndex(word[level]);
 
         if (curr->children[index] == nullptr) return false;
 
@@ -98,7 +107,7 @@ void Trie::searchPrefixHelper(ItemType word, vector<string> &result){
     TrieNode *curr = root;
 
     for (int level = 0; level < word.length(); level++){
-        int index = (word[level] != 32) ? CHAR_TO_INDEX(word[level]) : 26;
+        int index = hashCharToIndex(word[level]);
 
         if (curr->children[index] == nullptr) return;
 
@@ -133,10 +142,13 @@ void Trie::searchR(TrieNode* node, string word, vector<string> &result){
 
     for (int i = 0; i < MAX_SIZE; i++){
         if (node->children[i]){
-            if (i != 26)
-                word.push_back(97 + i);
-            else
+            if (i == 26)
                 word.push_back(32);
+            else if (i >= 27 && i <= 36)
+                word.push_back(48 + i - 27);
+            else
+                word.push_back(97 + i);
+                
 
             searchR(node->children[i], word, result);
 
@@ -167,7 +179,7 @@ Trie::TrieNode* Trie::removeR(Trie::TrieNode *node, ItemType word, int level){
         return node;
     }
 
-    int index = (word[level] != 32) ? CHAR_TO_INDEX(word[level]) : 26;
+    int index = hashCharToIndex(word[level]);
 
     // if the word not found, then cancel the operations and return
     if (node->children[index] == nullptr) return node;
