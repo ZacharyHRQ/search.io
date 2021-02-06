@@ -2,13 +2,19 @@
 #include "Dictionary.h" 
 using namespace std;
 
-Dictionary::Dictionary(){
-  for(int i = 0; i < MAX_LEN; i++){
+template<typename KeyType, typename ItemType>
+Dictionary<KeyType,ItemType>::Dictionary(){
+  threshold = 0.75f;
+  maxSize = 96;
+  tableSize = DEFAULT_TABLE_SIZE;
+  size = 0;
+  for(int i = 0; i < tableSize; i++){
     items[i] = NULL;
   }
 }
 
-Dictionary::~Dictionary(){}
+template<typename KeyType, typename ItemType>
+Dictionary<KeyType,ItemType>::~Dictionary(){}
 
 int charvalue(char c)
 {
@@ -23,8 +29,8 @@ int charvalue(char c)
 		return -1;
 }
 
-
-int Dictionary::hash(KeyType key)
+template<typename KeyType, typename ItemType>
+int Dictionary<KeyType,ItemType>::hash(KeyType key)
 {
 	int total = charvalue(key[0]);
 
@@ -33,13 +39,14 @@ int Dictionary::hash(KeyType key)
 		if (charvalue(key[i]) < 0)  // not an alphabet
 			continue;
 		total = total * 52 + charvalue(key[i]);
-	  total %= MAX_LEN;
+	  total %= tableSize;
 	}
 
   return total;
 }
 
-bool Dictionary::add(KeyType newKey, ItemType newItem){  
+template<typename KeyType, typename ItemType>
+bool Dictionary<KeyType,ItemType>::add(KeyType newKey, ItemType newItem){  
   int index = hash(newKey);
   Node* curr = items[index];
   Node *newNode = new Node;
@@ -62,10 +69,15 @@ bool Dictionary::add(KeyType newKey, ItemType newItem){
     curr->next = newNode;
   }
   size++;
+  if(size >= maxSize) {
+    cout << "resize" << endl; 
+    resize();
+  }
   return true;
 }
 
-void Dictionary::remove(KeyType key){
+template<typename KeyType, typename ItemType>
+void Dictionary<KeyType,ItemType>::remove(KeyType key){
   int index = hash(key);
   Node *curr = items[index]; 
   if(curr){
@@ -88,7 +100,8 @@ void Dictionary::remove(KeyType key){
   }
 }
 
-ItemType Dictionary::get(KeyType key){
+template<typename KeyType, typename ItemType>
+ItemType Dictionary<KeyType,ItemType>::get(KeyType key){
     ItemType item;
     int index = hash(key);
     if (items[index]){
@@ -101,12 +114,12 @@ ItemType Dictionary::get(KeyType key){
     return item;
 }
 
+template<typename KeyType, typename ItemType>
+int Dictionary<KeyType,ItemType>::getLength(){return size;}
 
-
-int Dictionary::getLength(){return size;}
-
-void Dictionary::print(){ 
-  for (int i = 0; i < MAX_LEN; i++)
+template<typename KeyType, typename ItemType>
+void Dictionary<KeyType,ItemType>::print(){ 
+  for (int i = 0; i < tableSize; i++)
     {
         Node* curr = items[i];
         if(curr){
@@ -119,4 +132,29 @@ void Dictionary::print(){
     }
 }
 
-bool Dictionary::isEmpty(){return bool(size);}
+template<typename KeyType, typename ItemType>
+bool Dictionary<KeyType,ItemType>::isEmpty(){return bool(size);}
+
+template<typename KeyType, typename ItemType>
+void Dictionary<KeyType,ItemType>::resize(){
+		int oldTableSize = tableSize;
+		tableSize *= 2;
+		maxSize = (int) (tableSize * threshold);
+		Node **oldItems = items;
+		Node *newItems[tableSize];
+		for (int i = 0; i < tableSize; i++)
+			newItems[i] = NULL;
+		size = 0;
+		for (int hash = 0; hash < oldTableSize; hash++)
+		if (newItems[hash] != NULL) {
+			Node* oldentry;
+			Node * entry = oldItems[hash];
+			while (entry != NULL) {
+					add(entry->key, entry->item);
+					oldentry = entry; 
+					entry = entry->next; 
+					delete oldentry;
+			}
+		}
+		delete[] oldItems;
+}	
