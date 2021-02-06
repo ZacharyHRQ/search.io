@@ -13,6 +13,7 @@ void initDict(Dictionary<string,string> &d);
 string convertStringToLower(string s);
 vector<string> getWordsFromFile();
 vector<string> search(vector<string> w,string pat);
+vector<string> navieSearch(vector<string> w,string pat);
 
 int main()
 {
@@ -119,7 +120,25 @@ int main()
         }
 
         else if (option == 7){
-        	cout << "[7] Reset Trie                  \n";
+            cin.ignore();
+            cout << "[7] Navie search        \n";
+            cout << "Enter a keyword for Navie Search: ";
+            string word;
+            getline(cin, word);
+
+            vector<string> words = getWordsFromFile();
+            vector<string> result = navieSearch(words,word);
+            if(result.size() == 0){ 
+               cout << "No results were found \n"; 
+            }else{
+                for(string w : result)
+                    cout << w << endl;
+            }
+            
+        }
+
+        else if (option == 8){
+        	cout << "[8] Reset Trie                  \n";
             trie->reset();
             cout << "The trie has been reset successfully. \n";
         }
@@ -142,7 +161,8 @@ void displayMenu()
     cout << "[4] Prefix Search               \n";
     cout << "[5] Display Trie                \n";
     cout << "[6] Universal Search            \n";
-    cout << "[7] Reset Trie                  \n";
+    cout << "[7] Navie Search                \n";
+    cout << "[8] Reset Trie                  \n";
     cout << "[0] Exit                        \n";
     cout << "--------------------------------\n";
     cout << "Enter option : ";
@@ -150,28 +170,10 @@ void displayMenu()
 
 void initTrie(Trie *trie)
 {
-    trie->insert("apple m1");
-    trie->insert("apple iphone 10");
-    trie->insert("apple iphone 12");
-    trie->insert("apple macbook pro 2019");
-    trie->insert("apple macbook pro 2020");
-    trie->insert("apple mac");
-    trie->insert("apple m1 chip");
-    trie->insert("apple watch");
-    trie->insert("apple imac");
-    trie->insert("apple stocks");
-    trie->insert("hello worldz");
-    trie->insert("apple");
-    trie->insert("book");
-    trie->insert("cup");
-    trie->insert("red");
-    trie->insert("wet");
-    trie->insert("dog");
-    trie->insert("big");
-    trie->insert("fast");
-    trie->insert("lunch");
-    trie->insert("five");
-    trie->insert("5");
+    vector<string> words = getWordsFromFile();
+    for(string word : words){ 
+        trie->insert(convertStringToLower(word));
+    }
 }
 
 // reading from data file , loading into dictionary
@@ -186,7 +188,7 @@ void initDict(Dictionary<string,string> &d)
             int pos = data.find(":");
             word = data.substr(0, pos);
             define = data.substr(pos + 1);
-            d.add(word, define);
+            d.add(convertStringToLower(word), define);
         }
         file.close();
     }
@@ -198,7 +200,6 @@ string convertStringToLower(string s){
     for (char c: s){
         res.push_back(tolower(c));
     }
-    cout << res << endl;
     return res;
 }
 
@@ -324,4 +325,24 @@ vector<string> search(vector<string> w,string pat)
          << results.size() << " results in " << double(duration.count() / double(1000000)) << " ms.\033[0m\n\n";
 
     return results;
+}
+
+vector<string> navieSearch(vector<string> w , string pat){
+   vector<string> results;
+
+    auto start = chrono::high_resolution_clock::now();
+
+    for (auto str : w)
+    {
+        if(str == pat)
+            results.push_back(str);
+    }
+
+    auto stop = chrono::high_resolution_clock::now();
+    auto duration = chrono::duration_cast<chrono::nanoseconds>(stop - start);
+
+    cerr << "\033[32m\n"
+         << results.size() << " results in " << double(duration.count() / double(1000000)) << " ms.\033[0m\n\n";
+
+    return results; 
 }
