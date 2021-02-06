@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <vector>
+#include <chrono>
 using namespace std;
 
 const int MAX_SIZE = 27; // (26 characters + empty space)

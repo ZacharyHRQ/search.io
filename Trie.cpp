@@ -66,16 +66,29 @@ bool Trie::isWordExist(ItemType word){
 
 // search for a word in Trie
 bool Trie::searchExact(ItemType word){
+    auto start = chrono::high_resolution_clock::now();
+    
     bool isExist = isWordExist(word);
 
+    auto end = chrono::high_resolution_clock::now();
+    auto duration = chrono::duration_cast<chrono::nanoseconds>(end - start);
+   cerr << "\033[32m\n"
+         << int(isExist) << " result in " << double(duration.count() / double(1000000)) << " ms.\033[0m\n\n";
     return isExist;
 }
 
 // print the suggestions by the prefix given
 vector<string> Trie::searchPrefix(ItemType word){
+    auto start = chrono::high_resolution_clock::now();
+
     vector<string> result;
 
     searchPrefixHelper(word, result);
+
+    auto end = chrono::high_resolution_clock::now();
+    auto duration = chrono::duration_cast<chrono::nanoseconds>(end - start);
+    cerr << "\033[32m\n"
+         << result.size() << " results in " << double(duration.count() / double(1000000)) << " ms.\033[0m\n\n";
  
     return result;
 }
@@ -171,9 +184,16 @@ Trie::TrieNode* Trie::removeR(Trie::TrieNode *node, ItemType word, int level){
 
 // get all words in trie
 vector<string> Trie::getAllWords(){
+    auto start = chrono::high_resolution_clock::now();
+
     vector<string> result;
 
     searchR(root, "", result);
+
+    auto end = chrono::high_resolution_clock::now();
+    auto duration = chrono::duration_cast<chrono::nanoseconds>(end - start);
+    cerr << "\033[32m\n"
+         << result.size() << " results in " << double(duration.count() / double(1000000)) << " ms.\033[0m\n\n";
 
     return result;
 }
