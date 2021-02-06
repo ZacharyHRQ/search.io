@@ -88,16 +88,22 @@ int main()
             }
         }
 
-        else if (option == 5){
-            cout << "[5] Display Trie                \n";
+        else if (option == 6){
+            cout << "[6] Display All Words           \n";
 
             for (string w: trie->getAllWords()){
                 cout << w << endl;
             }
         }
 
-        else if (option == 6){
-        	cout << "[6] Reset Trie                  \n";
+        else if (option == 7){
+            cout << "[7] Display Trie                \n";
+
+            trie->display();
+        }
+
+        else if (option == 8){
+        	cout << "[8] Reset Trie                  \n";
             trie->reset();
             cout << "The trie has been reset successfully. \n";
         }
@@ -118,8 +124,10 @@ void displayMenu()
     cout << "[2] Delete a keyword            \n";
     cout << "[3] Exact Search                \n";
     cout << "[4] Prefix Search               \n";
-    cout << "[5] Display Trie                \n";
-    cout << "[6] Reset Trie                  \n";
+    cout << "[5] Universal Search            \n";
+    cout << "[6] Display All Words           \n";
+    cout << "[7] Display Trie                \n";
+    cout << "[8] Reset Trie                  \n";
     cout << "[0] Exit                        \n";
     cout << "--------------------------------\n";
     cout << "Enter option : ";
@@ -127,28 +135,33 @@ void displayMenu()
 
 void initTrie(Trie *trie)
 {
-    trie->insert("apple m1");
+    trie->insert("book");
+    trie->insert("book store");
+    trie->insert("apple");
+    trie->insert("appstore");
+    trie->insert("apple macbook");
+    trie->insert("apple iphone");
     trie->insert("apple iphone 10");
     trie->insert("apple iphone 12");
     trie->insert("apple macbook pro 2019");
     trie->insert("apple macbook pro 2020");
-    trie->insert("apple mac");
-    trie->insert("apple m1 chip");
-    trie->insert("apple watch");
-    trie->insert("apple imac");
-    trie->insert("apple stocks");
-    trie->insert("hello worldz");
-    trie->insert("apple");
-    trie->insert("book");
-    trie->insert("cup");
-    trie->insert("red");
-    trie->insert("wet");
-    trie->insert("dog");
-    trie->insert("big");
-    trie->insert("fast");
-    trie->insert("lunch");
-    trie->insert("five");
-    trie->insert("5");
+    // trie->insert("apple mac");
+    // trie->insert("apple m1 chip");
+    // trie->insert("apple watch");
+    // trie->insert("apple imac");
+    // trie->insert("apple stocks");
+    // trie->insert("hello worldz");
+    // trie->insert("apple");
+    // trie->insert("book");
+    // trie->insert("cup");
+    // trie->insert("red");
+    // trie->insert("wet");
+    // trie->insert("dog");
+    // trie->insert("big");
+    // trie->insert("fast");
+    // trie->insert("lunch");
+    // trie->insert("five");
+    // trie->insert("5");
 }
 
 void initDict(Dictionary &d)
@@ -174,6 +187,6 @@ string convertStringToLower(string s){
     for (char c: s){
         res.push_back(tolower(c));
     }
-    cout << res << endl;
+    
     return res;
 }
