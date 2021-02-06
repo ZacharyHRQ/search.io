@@ -9,6 +9,7 @@ using namespace std;
 void displayMenu();
 void initTrie(Trie *trie);
 void initDict(Dictionary &d);
+string convertStringToLower(string s);
 
 int main()
 {
@@ -36,7 +37,7 @@ int main()
             cout << "Enter a new keyword: ";
             string word;
             getline(cin, word);
-            trie->insert(word);
+            trie->insert(convertStringToLower(word));
         }
 
         else if (option == 2)
@@ -46,7 +47,7 @@ int main()
             cout << "Enter a keyword for deleting: ";
             string word;
             getline(cin, word);
-            trie->remove(word);
+            trie->remove(convertStringToLower(word));
         }
 
         else if (option == 3)
@@ -56,7 +57,7 @@ int main()
             cout << "Enter a keyword for exact searching: ";
             string word;
             getline(cin, word);
-            bool isFound = trie->searchExact(word);
+            bool isFound = trie->searchExact(convertStringToLower(word));
 
             if (isFound){
                 string definition = d.get(word);
@@ -78,7 +79,7 @@ int main()
             string word;
             getline(cin, word);
 
-            vector<string> result = trie->searchPrefix(word);
+            vector<string> result = trie->searchPrefix(convertStringToLower(word));
             if (result.size() == 0){
                 cout << "No string found with this prefix\n";
             } else {
@@ -131,22 +132,23 @@ void initTrie(Trie *trie)
     trie->insert("apple iphone 12");
     trie->insert("apple macbook pro 2019");
     trie->insert("apple macbook pro 2020");
-    // trie->insert("apple mac");
-    // trie->insert("apple m one chip");
-    // trie->insert("apple watch");
-    // trie->insert("apple imac");
-    // trie->insert("apple stocks");
-    // trie->insert("hello worldz");
-    // trie->insert("apple");
-    // trie->insert("book");
-    // trie->insert("cup");
-    // trie->insert("red");
-    // trie->insert("wet");
-    // trie->insert("dog");
-    // trie->insert("big");
-    // trie->insert("fast");
-    // trie->insert("lunch");
-    // trie->insert("five");
+    trie->insert("apple mac");
+    trie->insert("apple m1 chip");
+    trie->insert("apple watch");
+    trie->insert("apple imac");
+    trie->insert("apple stocks");
+    trie->insert("hello worldz");
+    trie->insert("apple");
+    trie->insert("book");
+    trie->insert("cup");
+    trie->insert("red");
+    trie->insert("wet");
+    trie->insert("dog");
+    trie->insert("big");
+    trie->insert("fast");
+    trie->insert("lunch");
+    trie->insert("five");
+    trie->insert("5");
 }
 
 void initDict(Dictionary &d)
@@ -164,4 +166,14 @@ void initDict(Dictionary &d)
         }
         file.close();
     }
+}
+
+string convertStringToLower(string s){
+    string res;
+
+    for (char c: s){
+        res.push_back(tolower(c));
+    }
+    cout << res << endl;
+    return res;
 }

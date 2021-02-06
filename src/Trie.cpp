@@ -48,7 +48,7 @@ void Trie::insert(ItemType word){
 
     for (int level = 0; level < word.length(); level++){
         int index = hashCharToIndex(word[level]);
-        cout << word[level] << " " << index << endl;
+        
         if (curr->children[index] == nullptr)
             curr->children[index] = getNode();
         
