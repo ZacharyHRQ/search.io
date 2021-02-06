@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
-#include "Trie.h"
-#include "Dictionary.h"
+#include "Trie.cpp"
+#include "Dictionary.cpp"
 #include <string>
 
 using namespace std;
@@ -150,7 +150,7 @@ void initTrie(Trie *trie)
 void initDict(Dictionary &d)
 {
     string data, word, define;
-    ifstream file("data.txt");
+    ifstream file("../data/data.txt");
     if (file.is_open())
     {
         while (getline(file, data))
