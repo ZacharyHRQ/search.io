@@ -11,7 +11,8 @@ void displayMenu();
 void initTrie(Trie *trie);
 void initDict(Dictionary<string,string> &d);
 string convertStringToLower(string s);
-vector<string> search(string pat);
+vector<string> getWordsFromFile();
+vector<string> search(vector<string> w,string pat);
 
 int main()
 {
@@ -23,8 +24,7 @@ int main()
 
     Dictionary<string,string> d;
     initDict(d);
-    ;
-
+    
     int option = -1;
 
     while (option != 0)
@@ -100,13 +100,22 @@ int main()
         }
 
         else if (option == 6){
+            cin.ignore();
             cout << "[6] Universal search             \n";
             cout << "Enter a keyword for universal searching: ";
             string word;
             getline(cin, word);
-            for(string w : search(word)){ 
-                cout << w << endl;
+
+            vector<string> words = getWordsFromFile();
+            vector<string> result = search(words,word);
+            if(result.size() == 0){ 
+               cout << "No results were found \n"; 
+            }else{
+                for(string w : result)
+                    cout << w << endl;
             }
+            
+            
         }
 
         else if (option == 7){
@@ -296,19 +305,16 @@ int KMPSearch(string pat, string txt)
 
 // GLOBAL Search
 
-vector<string> search(string pat)
+vector<string> search(vector<string> w,string pat)
 {
-    vector<string> words = getWordsFromFile();
     vector<string> results;
 
     auto start = chrono::high_resolution_clock::now();
 
-    for (auto str : words)
+    for (auto str : w)
     {
         if (KMPSearch(pat, str) != -1)
-        {
             results.push_back(str);
-        }
     }
 
     auto stop = chrono::high_resolution_clock::now();
