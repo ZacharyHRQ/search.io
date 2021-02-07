@@ -124,7 +124,7 @@ int main()
             string word;
             getline(cin, word);
 
-            vector<string> words = getWordsFromFile();
+            // vector<string> words = getWordsFromFile();
             vector<string> result = navieSearch(words,word);
             if(result.size() == 0){ 
                cout << "No results were found \n"; 
@@ -151,6 +151,7 @@ int main()
         else if (option == 9){
         	cout << "[9] Reset Trie                  \n";
             trie->reset();
+            words.clear();
             cout << "The trie has been reset successfully. \n";
         }
     }
