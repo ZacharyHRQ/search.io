@@ -54,7 +54,7 @@ Trie::TrieNode* Trie::getNode(){
  *
  * This method will hash a character to an index.
  * There is only 37 possibilities for the children nodes:
- * Characters ('a' - 'z') will return 0 - 25 respectively.
+ * Alphabet Letters ('a' - 'z') will return 0 - 25 respectively.
  * Empty space ('') will return 26.
  * Digits ('0' - '9') will return 27 - 36 respetively.
  * 
@@ -68,7 +68,7 @@ int hashCharToIndex(char c){
         return 26;
     else if (isdigit(c)) // if the char is digit ('0' - '9')
         return 27 + int(c) - 48;
-    else // if the char is characters ('a' - 'z')
+    else // if the char is alphabet letter ('a' - 'z')
         return (int) c - (int) 'a'; 
 }
 
