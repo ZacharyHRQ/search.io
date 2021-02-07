@@ -1,8 +1,9 @@
 /**
  *
- * Trie.h - Header file of Trie
+ * @brief main.cpp - The main program
  *
  * @author Hou Man S10197636F, Zachary S10185319J
+ * Group: P04 Group 4
  * @since 07-02-2021
 **/
 
@@ -64,6 +65,8 @@ int main()
             string word;
             getline(cin, word);
             trie->remove(convertStringToLower(word));
+
+            // erase the word in vector
             vector<string>::iterator position = find(words.begin(), words.end(), convertStringToLower(word));
             if (position != words.end())
                 words.erase(position);
@@ -169,6 +172,11 @@ int main()
     return 0;
 }
 
+/**
+ *
+ * This method will display the menu.
+ *
+ * */
 void displayMenu()
 {
     cout << endl;
@@ -188,6 +196,14 @@ void displayMenu()
     cout << "Enter option : ";
 }
 
+/**
+ *
+ * This method will initialise the trie with some words.
+ * 
+ * @param trie This parameter is to get the trie
+ * @param words This parameter is to get the words list for appending
+ *
+ * */
 void initTrie(Trie *trie, vector<string> &words)
 {
     vector<string> initial = {"book", "book store", "apple", "appstore", "apple macbook", "apple iphone", "apple iphone 11", "apple iphone 12", "apple macbook pro 2019", "apple macbook pro 2020", "cup", "red", "wet", "dog", "big", "fast", "lunch", "five"};

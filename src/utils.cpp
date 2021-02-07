@@ -1,9 +1,12 @@
 /**
  *
- * Utils file containing KMP and Navie searching 
+ * @brief Utils file containing KMP and Navie searching 
  *
  * @author Zachary S10185319J
+ * Group: P04 Group 4
  * @since 06-02-2021
+ * 
+ * The highlight will be KMP searching
  */
 
 #include <bits/stdc++.h>

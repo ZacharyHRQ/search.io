@@ -1,8 +1,9 @@
 /**
 *
-* 	Dictionary.cpp - Implementation of Dictionary ADT using Pointers
+* 	@brief Dictionary.cpp - Implementation of Dictionary ADT using Pointers
 *
 * 	@author Zachary S10185319J
+*   Group: P04 Group 4
 * 	@since 21-01-2021
 */
 

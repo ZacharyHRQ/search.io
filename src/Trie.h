@@ -2,7 +2,9 @@
  *
  * Trie.h - Header file of Trie
  *
- * @author Hou Man S10197636F
+ * @author Hou Man 
+ * StudentID: S10197636F
+ * Group: P04 Group 4
  * @since 07-02-2021
 **/
 

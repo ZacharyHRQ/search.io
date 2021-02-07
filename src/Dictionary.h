@@ -1,9 +1,10 @@
 /**
 *
-* 	Trie.h - Header file of Dictionary
-*   This is a hash table that has used dynamic resizing and has thresholds to how long the chains can be 
+* 	@brief Trie.h - Header file of Dictionary
+*   @brief This is a hash table that has used dynamic resizing and has thresholds to how long the chains can be 
 *
 * 	@author Zachary S10185319J
+*   Group: P04 Group 4
 * 	@since 21-01-2021
 */
 
