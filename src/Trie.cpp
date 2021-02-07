@@ -186,7 +186,7 @@ Trie::TrieNode* Trie::removeR(Trie::TrieNode *node, ItemType word, int level){
 
     node->children[index] = removeR(node->children[index], word, level + 1);
 
-    if (isLastNode(node) && node->isEndOfWord){
+    if (isLastNode(node) && !node->isEndOfWord){
         delete (node);
         node = NULL;
     }
@@ -208,6 +208,102 @@ vector<string> Trie::getAllWords(){
          << result.size() << " results in " << double(duration.count() / double(1000000)) << " ms.\033[0m\n\n";
 
     return result;
+}
+
+void Trie::display(){
+    set<int> divider;
+
+    displayR(root, 0, divider);
+}
+
+void Trie::displayR(Trie::TrieNode* node, int spacing, set<int> divider){
+
+    int lastChildPos = findLastChildPos(node);
+
+    bool isMoreThanOneChild = hasMoreThanOneChildAt(node, 0);
+    if (isMoreThanOneChild){
+        divider.insert(spacing);
+    }
+    
+    if (node->isEndOfWord){
+        cout << "*";
+    }
+    cout << endl;
+
+    if (isLastNode(node)){
+        return;
+    }
+    
+    for (int i = 0; i < MAX_SIZE; i++){
+        if (node->children[i]){
+
+            if (lastChildPos == i){
+                divider.erase(spacing);
+            }
+
+            string word;
+            if (i == 26)
+                word.push_back(32);
+            else if (i >= 27 && i <= 36)
+                word.push_back(48 + i - 27);
+            else
+                word.push_back(97 + i);
+
+            bool lastChild = isLastChildAt(node, i+1);
+            
+            for (int space = 0; space < spacing; space++){
+
+                if (divider.find(space) != divider.end())
+                    cout << "│";
+                else
+                    cout << " ";
+                
+            }
+            
+            if (isMoreThanOneChild && !lastChild)
+                cout << "├──";
+            else
+                cout << "└── ";
+            
+            cout << word;
+
+            // if (hasMoreThanOneChildAt(node, 0)){
+            //     divider.insert(spacing+4);
+            // }
+
+            displayR(node->children[i], spacing+4, divider);
+
+            // backtracking
+            word.pop_back();
+        }
+    }
+}
+
+int Trie::findLastChildPos(TrieNode *node){
+    for (int i = MAX_SIZE-1; i > 0; i--)
+        if (node->children[i]) return i;
+
+    return 0;
+}
+
+bool Trie::isLastChildAt(TrieNode *node, int start){
+
+    for (int i = start; i < MAX_SIZE; i++){
+        if (node->children[i]) return false;
+    }
+
+    return true;
+}
+
+bool Trie::hasMoreThanOneChildAt(TrieNode* node, int start){
+    int child = 0;
+
+    for (int i = start; i < MAX_SIZE; i++){
+        if (node->children[i]) child++;
+
+    }
+
+    return child > 1;
 }
 
 // reset the trie and initialise the trie to default again

@@ -1,14 +1,15 @@
 #include <iostream>
 #include <fstream>
-#include "Trie.cpp"
-#include "Dictionary.cpp"
 #include <string>
 #include <vector>
+#include <algorithm>
+#include "Trie.cpp"
+#include "Dictionary.cpp"
 
 using namespace std;
 
 void displayMenu();
-void initTrie(Trie *trie);
+void initTrie(Trie *trie, vector<string> &words);
 void initDict(Dictionary<string,string> &d);
 string convertStringToLower(string s);
 vector<string> getWordsFromFile();
@@ -20,8 +21,10 @@ int main()
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
 
+    vector<string> words;
+
     Trie *trie = new Trie;
-    initTrie(trie);
+    initTrie(trie, words);
 
     Dictionary<string,string> d;
     initDict(d);
@@ -42,6 +45,7 @@ int main()
             string word;
             getline(cin, word);
             trie->insert(convertStringToLower(word));
+            words.push_back(convertStringToLower(word));
         }
 
         else if (option == 2)
@@ -52,6 +56,10 @@ int main()
             string word;
             getline(cin, word);
             trie->remove(convertStringToLower(word));
+            vector<string>::iterator position = find(words.begin(), words.end(), convertStringToLower(word));
+            if (position != words.end())
+                words.erase(position);
+
         }
 
         else if (option == 3)
@@ -93,21 +101,12 @@ int main()
         }
 
         else if (option == 5){
-            cout << "[5] Display Trie                \n";
-
-            for (string w: trie->getAllWords()){
-                cout << w << endl;
-            }
-        }
-
-        else if (option == 6){
             cin.ignore();
-            cout << "[6] Universal search             \n";
-            cout << "Enter a keyword for universal searching: ";
+            cout << "[5] KMP search             \n";
+            cout << "Enter a keyword for KMP searching: ";
             string word;
             getline(cin, word);
 
-            vector<string> words = getWordsFromFile();
             vector<string> result = search(words,word);
             if(result.size() == 0){ 
                cout << "No results were found \n"; 
@@ -116,12 +115,11 @@ int main()
                     cout << w << endl;
             }
             
-            
         }
 
-        else if (option == 7){
+        else if (option == 6){
             cin.ignore();
-            cout << "[7] Navie search        \n";
+            cout << "[6] Navie search        \n";
             cout << "Enter a keyword for Navie Search: ";
             string word;
             getline(cin, word);
@@ -134,11 +132,24 @@ int main()
                 for(string w : result)
                     cout << w << endl;
             }
-            
+        }
+
+        else if (option == 7){
+            cout << "[7] Display All Words           \n";
+
+            for (string w: trie->getAllWords()){
+                cout << w << endl;
+            }
         }
 
         else if (option == 8){
-        	cout << "[8] Reset Trie                  \n";
+            cout << "[8] Display Trie                \n";
+
+            trie->display();
+        }
+
+        else if (option == 9){
+        	cout << "[9] Reset Trie                  \n";
             trie->reset();
             cout << "The trie has been reset successfully. \n";
         }
@@ -159,20 +170,26 @@ void displayMenu()
     cout << "[2] Delete a keyword            \n";
     cout << "[3] Exact Search                \n";
     cout << "[4] Prefix Search               \n";
-    cout << "[5] Display Trie                \n";
-    cout << "[6] Universal Search            \n";
-    cout << "[7] Navie Search                \n";
-    cout << "[8] Reset Trie                  \n";
+    cout << "[5] KMP Search                  \n";
+    cout << "[6] Navie Search                \n";
+    cout << "[7] Display All Words           \n";
+    cout << "[8] Display Trie                \n";
+    cout << "[9] Reset Trie                  \n";
     cout << "[0] Exit                        \n";
     cout << "--------------------------------\n";
     cout << "Enter option : ";
 }
 
-void initTrie(Trie *trie)
+void initTrie(Trie *trie, vector<string> &words)
 {
-    vector<string> words = getWordsFromFile();
-    for(string word : words){ 
-        trie->insert(convertStringToLower(word));
+    // vector<string> words = getWordsFromFile();
+    // for(string word : words){ 
+    //     trie->insert(convertStringToLower(word));
+    vector<string> initial = {"book", "book store", "apple", "appstore", "apple macbook", "apple iphone", "apple iphone 11", "apple iphone 12", "apple macbook pro 2019", "apple macbook pro 2020", "cup", "red", "wet", "dog", "big", "fast", "lunch", "five"};
+    
+    for (string w: initial){
+        trie->insert(w);
+        words.push_back(w);
     }
 }
 
@@ -200,6 +217,7 @@ string convertStringToLower(string s){
     for (char c: s){
         res.push_back(tolower(c));
     }
+    
     return res;
 }
 

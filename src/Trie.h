@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <vector>
+#include <set>
 #include <chrono>
 using namespace std;
 
@@ -46,8 +47,13 @@ class Trie
         // recursive helper function to reset the trie
         void resetR(TrieNode* node);
 
-
+        void displayR(TrieNode* node, int spacing, set<int> divider);
         
+        bool hasMoreThanOneChildAt(TrieNode* node, int start);
+
+        bool isLastChildAt(TrieNode *node, int start);
+
+        int findLastChildPos(TrieNode *node);
 
     public:
         // constructor
@@ -70,6 +76,9 @@ class Trie
 
         // get all words in trie
         vector<string> getAllWords();
+
+        // display structure of trie
+        void display();
 
         // reset the trie to default
         void reset();
