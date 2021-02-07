@@ -8,8 +8,6 @@ using namespace std;
 const int MAX_SIZE = 37; // (26 characters + empty space + 10 numbers(0-9))
 typedef string ItemType;
 
-#define CHAR_TO_INDEX(c) ((int)c - (int)'a') 
-
 class Trie
 {
     private:
