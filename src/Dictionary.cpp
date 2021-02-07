@@ -1,122 +1,288 @@
+/**
+*
+* 	Dictionary cpp file
+*
+* 	@author Zachary S10185319J
+* 	@since 01-21-2021
+*/
+
+#include "Dictionary.h"
 #include <iostream>
-#include "Dictionary.h" 
 using namespace std;
 
-Dictionary::Dictionary(){
-  for(int i = 0; i < MAX_LEN; i++){
-    items[i] = NULL;
-  }
+/**
+*
+* This is a constructor for the Dictionary class 
+* It sets the threshold of load factor , maxSize and default table size
+* It empties the items array
+* 
+* */
+template <typename KeyType, typename ItemType>
+Dictionary<KeyType, ItemType>::Dictionary() {
+    threshold = 0.90f; // setting the threshold to 90%
+    maxSize = 8000;
+    tableSize = DEFAULT_TABLE_SIZE;
+    size = 0;
+
+    // empties items
+    for (int i = 0; i < tableSize; i++) {
+        items[i] = NULL;
+    }
 }
 
-Dictionary::~Dictionary(){}
 
-int charvalue(char c)
-{
-	if (isalpha(c))
+/**
+*
+* This is a destructor for the Dictionary class 
+* It empties the items array and deletes every value in items
+* 
+* */
+template <typename KeyType, typename ItemType>
+Dictionary<KeyType, ItemType>::~Dictionary() {
+    // deletes all indexes in items
+    for (int i = 0; i < tableSize; i++){
+        if (items[i]){
+            Node *temp = items[i];
+            temp->next = NULL;
+
+            delete temp;
+        }
+        items[i] = NULL;
+    }
+    // delete[] items;
+}
+
+/**
+*
+* This is a helper method for converting a letter to the Assci numbers used in the hash function
+* 
+* @param char c : charactor to convert
+* @return int This returns the assci number 
+* */
+int charvalue(char c){
+	if (isalpha(c)) // checks if it a alphabet 
 	{
 		if (isupper(c))
-			return (int)c - (int) 'A';
+			return (int)c - (int) 'A'; // A = 65 
 		else
-			return (int)c - (int) 'a' + 26;
-	}
-	else
-		return -1;
-}
-
-
-int Dictionary::hash(KeyType key)
-{
-	int total = charvalue(key[0]);
-
-	for (int i = 1; i < key.length(); i++)
-	{
-		if (charvalue(key[i]) < 0)  // not an alphabet
-			continue;
-		total = total * 52 + charvalue(key[i]);
-	  total %= MAX_LEN;
-	}
-
-  return total;
-}
-
-bool Dictionary::add(KeyType newKey, ItemType newItem){  
-  int index = hash(newKey);
-  Node* curr = items[index];
-  Node *newNode = new Node;
-  newNode->item = newItem;
-  newNode->key = newKey;
-  newNode->next = NULL;
-  if (items[index] == NULL){ 
-    items[index] = newNode;
-  }
-  else{
-    if (curr->key == newKey){
-      return false;
+			return (int)c - (int) 'a' + 26; // adding 26 for lowercase letters
     }
-    while(curr->next){
-      curr = curr->next;
-      if (curr->key== newKey){ 
-        return false;
-      }
-    }
-    curr->next = newNode;
-  }
-  size++;
-  return true;
+    
+    return -1; 
 }
 
-void Dictionary::remove(KeyType key){
-  int index = hash(key);
-  Node *curr = items[index]; 
-  if(curr){
-    if(curr->key == key){
-      Node* temp = curr->next;
-      delete  curr->next;
-      items[index] = temp;
-    }else{
-      while(curr->next){
-        if(curr->next->key == key){
-          Node* temp = curr->next->next;
-          curr->next->next = NULL;
-          delete curr->next; 
-          curr->next = temp;
+/**
+*
+* This is the hash function method that takes a key and hashes it into an index
+* 
+* @param KeyType key : key to hash
+* 
+* @return int This returns the index to place into items array
+*
+* */
+
+template <typename KeyType, typename ItemType>
+int Dictionary<KeyType, ItemType>::hash(KeyType key) {
+
+    int total = charvalue(key[0]);
+
+    for (int i = 1; i < key.length(); i++) {
+        if (charvalue(key[i]) < 0) // not an alphabet
+            continue;
+
+        total = total * 52 + charvalue(key[i]);  // horner's rule
+        total %= tableSize; 
+    }
+
+    return total;
+}
+
+/**
+*
+* This method is used to add a new key value pair to the dictionary , it resize the dictionary if the size exceeds the threshold size
+* 
+* @param KeyType newKey : key to hash , ItemType newItem : the item to newKey is mapped to 
+* 
+* @return bool This returns if the method worked
+*
+* */
+template <typename KeyType, typename ItemType>
+bool Dictionary<KeyType, ItemType>::add(KeyType newKey, ItemType newItem) {
+    // hashing key
+    int index = hash(newKey);
+    // creating new node to be inserted 
+    Node *curr = items[index];
+    Node *newNode = new Node;
+    newNode->item = newItem;
+    newNode->key = newKey;
+    newNode->next = NULL;
+
+    // if hashed index is empty
+    if (items[index] == NULL) {
+        items[index] = newNode;
+    } else {
+        // duplicated key , return false 
+        if (curr->key == newKey) {
+            return false;
         }
-        curr = curr->next;
-      }
+        // loops down the chain to add to 
+        while (curr->next) {
+            curr = curr->next;
+            if (curr->key == newKey) return false;
+        }
+
+        curr->next = newNode;
     }
-  size--;
-  }
+
+    size++;
+    // if current size is greater or equal to maxsize (threshold * tableSize) , resize
+    if (size >= maxSize) {
+        resize();
+    }
+
+    return true;
 }
 
-ItemType Dictionary::get(KeyType key){
-    ItemType item;
+/**
+*
+* This method is used to remove a key value pair from the dictionary
+* 
+* @param KeyType key : key to find from the dictionary
+* 
+*
+* */
+template <typename KeyType, typename ItemType>
+void Dictionary<KeyType, ItemType>::remove(KeyType key) {
+
     int index = hash(key);
-    if (items[index]){
-        Node *curr = items[index];
-        while(curr){
-            if(curr->key == key) return curr->item;
-            curr = curr->next; 
-        }
-    }
-    return item;
-}
+    Node *curr = items[index];
+    
+    if (curr) {
+        // first node of the chain to be deleted , delete and set next node to be head 
+        if (curr->key == key) {
+            Node *temp = curr->next;
+            delete curr->next;
+            items[index] = temp;
+        } else {
+            // loop til the node is found 
+            while (curr->next) {
+                if (curr->next->key == key) {
+                    Node *temp = curr->next->next;
+                    curr->next->next = NULL;
+                    delete curr->next;
+                    curr->next = temp;
+                }
 
-
-
-int Dictionary::getLength(){return size;}
-
-void Dictionary::print(){ 
-  for (int i = 0; i < MAX_LEN; i++)
-    {
-        Node* curr = items[i];
-        if(curr){
-            while(curr){
-                cout << curr->key << " : " << curr->item << endl;
                 curr = curr->next;
             }
         }
 
+        size--;
     }
 }
 
-bool Dictionary::isEmpty(){return bool(size);}
+/**
+*
+* This method is used to retrive the value from the input key
+* 
+* @param KeyType key : key to find from the dictionary
+* 
+* @return ItemType This returns the value associated to the key from @param
+* */
+template <typename KeyType, typename ItemType>
+ItemType Dictionary<KeyType, ItemType>::get(KeyType key) {
+    ItemType item;
+    int index = hash(key);
+
+    if (items[index]) {
+        Node *curr = items[index];
+        while (curr) {
+            if (curr->key == key)
+                return curr->item;
+            curr = curr->next;
+        }
+    }
+
+    return item;
+}
+
+/**
+*
+* This method is used to retrieve the size of the dictionary
+* 
+* @return int This returns the size of the dictionary
+* */
+template <typename KeyType, typename ItemType>
+int Dictionary<KeyType, ItemType>::getLength() {
+    return size;
+}
+
+
+/**
+*
+* This method is used to display the contents of the dictionary
+* 
+* */
+template <typename KeyType, typename ItemType>
+void Dictionary<KeyType, ItemType>::print() {
+    for (int i = 0; i < tableSize; i++) {
+        Node *curr = items[i];
+        if (curr) {
+            while (curr) {
+                cout << curr->key << " : " << curr->item << endl;
+                curr = curr->next;
+            }
+        }
+    }
+}
+
+/**
+*
+* This method is used to check if the dictionary is empty
+* 
+* @return bool This returns if the dictionary is empty
+* */
+template <typename KeyType, typename ItemType>
+bool Dictionary<KeyType, ItemType>::isEmpty() {
+    return bool(size);
+}
+
+/**
+*
+* This method is used to dyanmically resize the dictionary
+* It doubles the size of the current tablesize 
+* Creates a new array and rehashes the current array key-value pairs
+* adding it into the new array. It deletes the old array.
+* 
+* 
+* */
+template <typename KeyType, typename ItemType>
+void Dictionary<KeyType, ItemType>::resize() {
+    int oldTableSize = tableSize;
+    tableSize *= 2; // double the size 
+    maxSize = (int)(tableSize * threshold); // calculate 
+
+
+    Node **oldItems = items; // copy of old items
+    Node *newItems[tableSize]; // new array to store the new table 
+    for (int i = 0; i < tableSize; i++)
+        newItems[i] = NULL;
+
+    // rehashing and transfering into new table 
+    size = 0;
+    for (int hash = 0; hash < oldTableSize; hash++){
+        if (newItems[hash] != NULL) {
+            Node *oldentry;
+            Node *entry = oldItems[hash];
+            
+            while (entry != NULL) {
+                add(entry->key, entry->item);
+                oldentry = entry;
+                entry = entry->next;
+                delete oldentry;
+            }
+        }
+    }
+
+    delete[] oldItems;
+}
