@@ -25,6 +25,8 @@ int charvalue(char c){
 		else
 			return (int)c - (int) 'a' + 26;
     }
+    
+    return -1;
 }
 
 template <typename KeyType, typename ItemType>
