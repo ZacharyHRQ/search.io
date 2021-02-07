@@ -72,7 +72,7 @@ int main()
             bool isFound = trie->searchExact(convertStringToLower(word));
 
             if (isFound){
-                string definition = d.get(word);
+                string definition = d.get(convertStringToLower(word));
                 if (definition.length() > 0)
                     cout << "The definition of " << word << " is " << definition << endl;
                 else
