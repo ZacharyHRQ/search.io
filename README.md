@@ -1,6 +1,6 @@
 # search.io
 
-# Data structure used Trie
+# Data structure used Trie , HashTable
 
 # How to run (using g++)
 
