@@ -130,13 +130,13 @@ vector<string> search(vector<string> words ,string pattern){
 
 /**
 *
-* This method is used return the result from navie search , checking if the pattern existing in the word by constantly checking from past substrings
+* This method is used return the result from naive search , checking if the pattern existing in the word by constantly checking from past substrings
 * 
 * @param vector<string> words : the words to search from , string pattern : pattern to search for
 *
-* @return vector<string> This returns the results from navieSearch
+* @return vector<string> This returns the results from naiveSearch
 * */
-vector<string> navieSearch(vector<string> words , string pattern ){
+vector<string> naiveSearch(vector<string> words , string pattern ){
     vector<string> results;
 
     auto start = chrono::high_resolution_clock::now();

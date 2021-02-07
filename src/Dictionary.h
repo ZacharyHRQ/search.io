@@ -6,12 +6,13 @@
 * 	@author Zachary S10185319J
 * 	@since 01-21-2021
 */
+
 #pragma once
 #include<string>
 #include<iostream>
 using namespace std;
 
-const int DEFAULT_TABLE_SIZE = 30;
+const int DEFAULT_TABLE_SIZE = 10000;
 template<typename KeyType, typename ItemType> // setting template for generic type 
 
 class Dictionary

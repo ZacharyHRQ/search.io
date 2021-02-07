@@ -1,7 +1,6 @@
 /**
 *
 * 	Dictionary cpp file
-*   This is a hash table that has used dynamic resizing and has thresholds to how long the chains can be 
 *
 * 	@author Zachary S10185319J
 * 	@since 01-21-2021
@@ -20,8 +19,8 @@ using namespace std;
 * */
 template <typename KeyType, typename ItemType>
 Dictionary<KeyType, ItemType>::Dictionary() {
-    threshold = 0.75f; // setting the threshold to 0.75%
-    maxSize = 96;
+    threshold = 0.90f; // setting the threshold to 90%
+    maxSize = 8000;
     tableSize = DEFAULT_TABLE_SIZE;
     size = 0;
 
