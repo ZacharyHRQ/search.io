@@ -138,10 +138,10 @@ vector<string> navieSearch(vector<string> words , string pattern ){
 
     auto start = chrono::high_resolution_clock::now();
 
-    for (auto str : w)
+    for (auto str : words)
     {
         // checks if the pattern is in word 
-        if(str.find(pat) != string::npos)
+        if(str.find(pattern) != string::npos)
             results.push_back(str);
     }
 
