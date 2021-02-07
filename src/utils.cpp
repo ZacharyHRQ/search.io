@@ -130,7 +130,7 @@ vector<string> search(vector<string> words ,string pattern){
 
 /**
 *
-* This method is used return the result from navie search , checking if the pattern existing in the word
+* This method is used return the result from navie search , checking if the pattern existing in the word by constantly checking from past substrings
 * 
 * @param vector<string> words : the words to search from , string pattern : pattern to search for
 *
@@ -143,9 +143,20 @@ vector<string> navieSearch(vector<string> words , string pattern ){
 
     for (auto str : words)
     {
-        // checks if the pattern is in word 
-        if(str.find(pattern) != string::npos)
-            results.push_back(str);
+        int patSize = pattern.length(); 
+        int wordSize = str.length(); 
+    
+        // looping one pattern by one pattern  
+        for (int i = 0; i <= wordSize - patSize; i++) { 
+            int j; // making accessable within the loop
+            // at current index i, check for pattern match 
+            for (j = 0; j < patSize; j++) 
+                if (str[i + j] != pattern[j]) 
+                    break; 
+    
+            if (j == patSize) // if pattern[0...M-1] = str[i, i+1, ...i+M-1] 
+                results.push_back(str);
+        } 
     }
 
     auto stop = chrono::high_resolution_clock::now();
