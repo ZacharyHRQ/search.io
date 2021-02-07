@@ -57,7 +57,7 @@ void computeLPSArray(string pattern, int patSize, int *lps){
 *
 * @param string pattern : pattern to search for , string txt : word to search from
 *
-* @return int 
+* @return int this returns the index of the found pattern
 * 
 * */
 int KMPSearch(string pattern , string txt)

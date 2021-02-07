@@ -107,8 +107,7 @@ int main()
             string word;
             getline(cin, word);
 
-            vector<string> displaywords = getWordsFromFile();
-            vector<string> result = search(displaywords,word);
+            vector<string> result = search(words,word);
             if(result.size() == 0){ 
                cout << "No results were found \n"; 
             }else{
@@ -125,8 +124,7 @@ int main()
             string word;
             getline(cin, word);
 
-            vector<string> displaywords = getWordsFromFile();
-            vector<string> result = naiveSearch(displaywords,word);
+            vector<string> result = naiveSearch(words,word);
             if(result.size() == 0){ 
                cout << "No results were found \n"; 
             }else{
