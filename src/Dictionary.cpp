@@ -3,7 +3,7 @@
 * 	Dictionary cpp file
 *   This is a hash table that has used dynamic resizing and has thresholds to how long the chains can be 
 *
-* 	@author Zachary
+* 	@author Zachary S10185319J
 * 	@since 01-21-2021
 */
 

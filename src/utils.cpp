@@ -2,7 +2,7 @@
  *
  * Utils file containing KMP and Navie searching 
  *
- * @author Zachary
+ * @author Zachary S10185319J
  * @since 02-06-2021
  */
 
