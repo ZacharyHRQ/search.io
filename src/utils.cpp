@@ -14,7 +14,8 @@ using namespace std;
 *
 * This method is used for preprocessing a pattern sting before searching for.  
 * This involves the construction of a longest proper suffix array corressponding to the pattern of the same size.
-*   
+* The lps will consist of the index of the char that was last seen 
+*
 * @param string pat : pattern , int patSize : length of the pattern  , int *lps : pointer to a lps array
 *
 * 
@@ -51,7 +52,8 @@ void computeLPSArray(string pattern, int patSize, int *lps){
 /**
 *
 * This method is used implement KMP searching , it uses helper function computeLPSArray to generate arrays to search from.
-* KMP searching uses a the lps array together with a sliding window method search for patterns with a string 
+* KMP searching uses a the lps array for patterns with a string , using a two pointer techniques. Checking for mismatches.
+* 
 *
 * @param string pattern : pattern to search for , string txt : word to search from
 *
