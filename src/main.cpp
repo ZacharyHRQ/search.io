@@ -188,6 +188,7 @@ void initTrie(Trie *trie, vector<string> &words)
         trie->insert(w);
         words.push_back(w);
     }
+
 }
 
 /**
@@ -213,6 +214,14 @@ void initDict(Dictionary<string,string> &d){
     }
 }
 
+/**
+*
+* This method is used to transform a string to a lowercase
+* 
+* @param string This parameter is used as the string to transform
+*
+* @return string This returns a lowercased string 
+* */
 string convertStringToLower(string s){
     string res;
 

@@ -21,7 +21,7 @@ using namespace std;
 template <typename KeyType, typename ItemType>
 Dictionary<KeyType, ItemType>::Dictionary() {
     threshold = 0.75f; // setting the threshold to 0.75%
-    maxSize = 21; // setting max size
+    maxSize = 96;
     tableSize = DEFAULT_TABLE_SIZE;
     size = 0;
 
@@ -50,6 +50,7 @@ Dictionary<KeyType, ItemType>::~Dictionary() {
         }
         items[i] = NULL;
     }
+    // delete[] items;
 }
 
 /**

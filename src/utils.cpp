@@ -112,6 +112,7 @@ vector<string> search(vector<string> words ,string pattern){
 
     for (auto str : words)
     {
+        // KMP search 
         if (KMPSearch(pattern, str) != -1)
             results.push_back(str);
     }
