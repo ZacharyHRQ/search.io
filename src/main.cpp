@@ -14,6 +14,7 @@ void initDict(Dictionary<string,string> &d);
 string convertStringToLower(string s);
 vector<string> getWordsFromFile();
 vector<string> search(vector<string> w,string pat);
+vector<string> navieSearch(vector<string> w,string pat);
 
 int main()
 {
@@ -101,8 +102,8 @@ int main()
 
         else if (option == 5){
             cin.ignore();
-            cout << "[5] Universal search             \n";
-            cout << "Enter a keyword for universal searching: ";
+            cout << "[5] KMP search             \n";
+            cout << "Enter a keyword for KMP searching: ";
             string word;
             getline(cin, word);
 
@@ -117,21 +118,38 @@ int main()
         }
 
         else if (option == 6){
-            cout << "[6] Display All Words           \n";
+            cin.ignore();
+            cout << "[6] Navie search        \n";
+            cout << "Enter a keyword for Navie Search: ";
+            string word;
+            getline(cin, word);
+
+            vector<string> words = getWordsFromFile();
+            vector<string> result = navieSearch(words,word);
+            if(result.size() == 0){ 
+               cout << "No results were found \n"; 
+            }else{
+                for(string w : result)
+                    cout << w << endl;
+            }
+        }
+
+        else if (option == 7){
+            cout << "[7] Display All Words           \n";
 
             for (string w: trie->getAllWords()){
                 cout << w << endl;
             }
         }
 
-        else if (option == 7){
-            cout << "[7] Display Trie                \n";
+        else if (option == 8){
+            cout << "[8] Display Trie                \n";
 
             trie->display();
         }
 
-        else if (option == 8){
-        	cout << "[8] Reset Trie                  \n";
+        else if (option == 9){
+        	cout << "[9] Reset Trie                  \n";
             trie->reset();
             cout << "The trie has been reset successfully. \n";
         }
@@ -152,10 +170,11 @@ void displayMenu()
     cout << "[2] Delete a keyword            \n";
     cout << "[3] Exact Search                \n";
     cout << "[4] Prefix Search               \n";
-    cout << "[5] Universal Search            \n";
-    cout << "[6] Display All Words           \n";
-    cout << "[7] Display Trie                \n";
-    cout << "[8] Reset Trie                  \n";
+    cout << "[5] KMP Search                  \n";
+    cout << "[6] Navie Search                \n";
+    cout << "[7] Display All Words           \n";
+    cout << "[8] Display Trie                \n";
+    cout << "[9] Reset Trie                  \n";
     cout << "[0] Exit                        \n";
     cout << "--------------------------------\n";
     cout << "Enter option : ";
@@ -172,8 +191,7 @@ void initTrie(Trie *trie, vector<string> &words)
 }
 
 // reading from data file , loading into dictionary
-void initDict(Dictionary<string,string> &d)
-{
+void initDict(Dictionary<string,string> &d){
     string data, word, define;
     ifstream file("../data/data.txt");
     if (file.is_open())
@@ -183,7 +201,7 @@ void initDict(Dictionary<string,string> &d)
             int pos = data.find(":");
             word = data.substr(0, pos);
             define = data.substr(pos + 1);
-            d.add(word, define);
+            d.add(convertStringToLower(word), define);
         }
         file.close();
     }
@@ -218,8 +236,7 @@ vector<string> getWordsFromFile(){
 }
 
 // Fills lps[] for given patttern pat[0..M-1]
-void computeLPSArray(string pat, int M, int *lps)
-{
+void computeLPSArray(string pat, int M, int *lps){
     // length of the previous longest prefix suffix
     int len = 0;
 
@@ -237,17 +254,11 @@ void computeLPSArray(string pat, int M, int *lps)
         }
         else // (pat[i] != pat[len])
         {
-            // This is tricky. Consider the example.
-            // AAACAAAA and i = 7. The idea is similar
-            // to search step.
             if (len != 0)
             {
                 len = lps[len - 1];
-
-                // Also, note that we do not increment
-                // i here
             }
-            else // if (len == 0)
+            else 
             {
                 lps[i] = 0;
                 i++;
@@ -281,7 +292,6 @@ int KMPSearch(string pat, string txt)
 
         if (j == M)
         {
-            // printf("Found pattern at index %d ", i - j);
             return i - j;
             j = lps[j - 1];
         }
@@ -300,10 +310,8 @@ int KMPSearch(string pat, string txt)
     return -1;
 }
 
-// GLOBAL Search
-
-vector<string> search(vector<string> w,string pat)
-{
+// KMP algorithm
+vector<string> search(vector<string> w,string pat){
     vector<string> results;
 
     auto start = chrono::high_resolution_clock::now();
@@ -321,4 +329,25 @@ vector<string> search(vector<string> w,string pat)
          << results.size() << " results in " << double(duration.count() / double(1000000)) << " ms.\033[0m\n\n";
 
     return results;
+}
+
+// navie searching checking if a word matches 
+vector<string> navieSearch(vector<string> w , string pat){
+    vector<string> results;
+
+    auto start = chrono::high_resolution_clock::now();
+
+    for (auto str : w)
+    {
+        if(str == pat)
+            results.push_back(str);
+    }
+
+    auto stop = chrono::high_resolution_clock::now();
+    auto duration = chrono::duration_cast<chrono::nanoseconds>(stop - start);
+
+    cerr << "\033[32m\n"
+         << results.size() << " results in " << double(duration.count() / double(1000000)) << " ms.\033[0m\n\n";
+
+    return results; 
 }
