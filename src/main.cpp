@@ -72,7 +72,7 @@ int main()
             bool isFound = trie->searchExact(convertStringToLower(word));
 
             if (isFound){
-                string definition = d.get(word);
+                string definition = d.get(convertStringToLower(word));
                 if (definition.length() > 0)
                     cout << "The definition of " << word << " is " << definition << endl;
                 else
@@ -124,7 +124,7 @@ int main()
             string word;
             getline(cin, word);
 
-            vector<string> words = getWordsFromFile();
+            // vector<string> words = getWordsFromFile();
             vector<string> result = navieSearch(words,word);
             if(result.size() == 0){ 
                cout << "No results were found \n"; 
@@ -151,6 +151,7 @@ int main()
         else if (option == 9){
         	cout << "[9] Reset Trie                  \n";
             trie->reset();
+            words.clear();
             cout << "The trie has been reset successfully. \n";
         }
     }
