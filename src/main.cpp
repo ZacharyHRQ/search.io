@@ -119,8 +119,8 @@ int main()
 
         else if (option == 6){
             cin.ignore();
-            cout << "[6] Navie search        \n";
-            cout << "Enter a keyword for Navie Search: ";
+            cout << "[6] Naive search        \n";
+            cout << "Enter a keyword for Naive Search: ";
             string word;
             getline(cin, word);
 
@@ -171,7 +171,7 @@ void displayMenu()
     cout << "[3] Exact Search                \n";
     cout << "[4] Prefix Search               \n";
     cout << "[5] KMP Search                  \n";
-    cout << "[6] Navie Search                \n";
+    cout << "[6] Naive Search                \n";
     cout << "[7] Display All Words           \n";
     cout << "[8] Display Trie                \n";
     cout << "[9] Reset Trie                  \n";

@@ -3,15 +3,17 @@
 
 // constructor of Trie
 Trie::Trie(){
+    // initialise root to a new trie node
     root = getNode();
 }
 
 // deconstructor of Trie to free up the memory
 Trie::~Trie(){
+    // call the reset trie method
     reset();
 }
 
-// Returns new trie node (initialized to NULLs) 
+// Returns new trie node (initialized all its children to NULLs) 
 Trie::TrieNode* Trie::getNode(){
     TrieNode *node = new TrieNode;
     node->isEndOfWord = false;
@@ -29,7 +31,7 @@ int hashCharToIndex(char c){
     else if (isdigit(c))
         return 27 + int(c) - 48;
     else
-        return CHAR_TO_INDEX(c);
+        return (int) c - (int) 'a'; 
 }
 
 // check whether the TrieNode is the lastNode (no children)
