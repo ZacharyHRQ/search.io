@@ -7,7 +7,7 @@
 ## How to run (Linux)
 ```
 cd src
-g++ main.cpp -o run
+g++ --std=c++17 main.cpp -o run
 ./run
 ```
 
