@@ -15,21 +15,23 @@ using namespace std;
 * This method is used for preprocessing a pattern sting before searching for.  
 * This involves the construction of a longest proper suffix array corressponding to the pattern of the same size.
 *   
-* @param string pat : pattern , int M : length of the pattern  , int *lps : pointer to a lps array
+* @param string pat : pattern , int patSize : length of the pattern  , int *lps : pointer to a lps array
 *
 * 
 * */
-void computeLPSArray(string pat, int M, int *lps){
+void computeLPSArray(string pattern, int patSize, int *lps){
     int len = 0;
     lps[0] = 0; 
-    int i = 1;
-    while (i < M)
+    int index = 1;
+
+    // loop from 1 to size of pattern -1 
+    while (index < patSize)
     {
-        if (pat[i] == pat[len])
+        if (pattern[index] == pattern[len])
         {
             len++;
-            lps[i] = len;
-            i++;
+            lps[index] = len;
+            index++;
         }
         else 
         {
@@ -39,8 +41,8 @@ void computeLPSArray(string pat, int M, int *lps){
             }
             else 
             {
-                lps[i] = 0;
-                i++;
+                lps[index] = 0;
+                index++;
             }
         }
     }
@@ -51,40 +53,39 @@ void computeLPSArray(string pat, int M, int *lps){
 * This method is used implement KMP searching , it uses helper function computeLPSArray to generate arrays to search from.
 * KMP searching uses a the lps array together with a sliding window method search for patterns with a string 
 *
-* @param string pat : pattern to search for , string txt : word to search from
+* @param string pattern : pattern to search for , string txt : word to search from
 *
 * @return int 
 * 
 * */
-int KMPSearch(string pat, string txt)
+int KMPSearch(string pattern , string txt)
 {
-    int M = pat.size();
-    int N = txt.size();
+    int patSize = pattern.size();
+    int wordSize = txt.size();
 
-    // create lps[] that will hold the longest prefix suffix
-    // values for pattern
-    int lps[M];
+    // create lps[] that will hold the longest prefix suffix values for pattern
+    int lps[patSize];
 
     // Preprocess the pattern (calculate lps[] array)
-    computeLPSArray(pat, M, lps);
+    computeLPSArray(pattern, patSize, lps);
 
     int i = 0; // index for txt[]
     int j = 0; // index for pat[]
-    while (i < N)
+    while (i < wordSize)
     {
-        if (pat[j] == txt[i])
+        if (pattern[j] == txt[i])
         {
             j++;
             i++;
         }
 
-        if (j == M)
+        if (j == patSize)
         {
             return i - j;
             j = lps[j - 1];
         }
 
-        else if (i < N && pat[j] != txt[i])
+        else if (i < wordSize && pattern[j] != txt[i])
         {
             
             if (j != 0)
@@ -100,18 +101,18 @@ int KMPSearch(string pat, string txt)
 *
 * This method is used return the result from KMP search function
 * 
-* @param vector<string> w : the words to search from , string pat : pattern to search for
+* @param vector<string> words : the words to search from , string pattern : pattern to search for
 *
 * @return vector<string> This returns the results from KMP search
 * */
-vector<string> search(vector<string> w,string pat){
+vector<string> search(vector<string> words ,string pattern){
     vector<string> results;
 
     auto start = chrono::high_resolution_clock::now();
 
-    for (auto str : w)
+    for (auto str : words)
     {
-        if (KMPSearch(pat, str) != -1)
+        if (KMPSearch(pattern, str) != -1)
             results.push_back(str);
     }
 
@@ -128,17 +129,18 @@ vector<string> search(vector<string> w,string pat){
 *
 * This method is used return the result from navie search , checking if the pattern existing in the word
 * 
-* @param vector<string> w : the words to search from , string pat : pattern to search for
+* @param vector<string> words : the words to search from , string pattern : pattern to search for
 *
 * @return vector<string> This returns the results from navieSearch
 * */
-vector<string> navieSearch(vector<string> w , string pat){
+vector<string> navieSearch(vector<string> words , string pattern ){
     vector<string> results;
 
     auto start = chrono::high_resolution_clock::now();
 
     for (auto str : w)
     {
+        // checks if the pattern is in word 
         if(str.find(pat) != string::npos)
             results.push_back(str);
     }

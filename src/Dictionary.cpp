@@ -20,11 +20,12 @@ using namespace std;
 * */
 template <typename KeyType, typename ItemType>
 Dictionary<KeyType, ItemType>::Dictionary() {
-    threshold = 0.75f;
-    maxSize = 21;
+    threshold = 0.75f; // setting the threshold to 0.75%
+    maxSize = 21; // setting max size
     tableSize = DEFAULT_TABLE_SIZE;
     size = 0;
 
+    // empties items
     for (int i = 0; i < tableSize; i++) {
         items[i] = NULL;
     }
@@ -39,6 +40,7 @@ Dictionary<KeyType, ItemType>::Dictionary() {
 * */
 template <typename KeyType, typename ItemType>
 Dictionary<KeyType, ItemType>::~Dictionary() {
+    // deletes all indexes in items
     for (int i = 0; i < tableSize; i++){
         if (items[i]){
             Node *temp = items[i];
@@ -58,15 +60,15 @@ Dictionary<KeyType, ItemType>::~Dictionary() {
 * @return int This returns the assci number 
 * */
 int charvalue(char c){
-	if (isalpha(c))
+	if (isalpha(c)) // checks if it a alphabet 
 	{
 		if (isupper(c))
-			return (int)c - (int) 'A';
+			return (int)c - (int) 'A'; // A = 65 
 		else
-			return (int)c - (int) 'a' + 26;
+			return (int)c - (int) 'a' + 26; // adding 26 for lowercase letters
     }
     
-    return -1;
+    return -1; 
 }
 
 /**
@@ -88,8 +90,8 @@ int Dictionary<KeyType, ItemType>::hash(KeyType key) {
         if (charvalue(key[i]) < 0) // not an alphabet
             continue;
 
-        total = total * 52 + charvalue(key[i]);
-        total %= tableSize;
+        total = total * 52 + charvalue(key[i]);  // horner's rule
+        total %= tableSize; 
     }
 
     return total;
@@ -106,20 +108,24 @@ int Dictionary<KeyType, ItemType>::hash(KeyType key) {
 * */
 template <typename KeyType, typename ItemType>
 bool Dictionary<KeyType, ItemType>::add(KeyType newKey, ItemType newItem) {
+    // hashing key
     int index = hash(newKey);
+    // creating new node to be inserted 
     Node *curr = items[index];
     Node *newNode = new Node;
     newNode->item = newItem;
     newNode->key = newKey;
     newNode->next = NULL;
 
+    // if hashed index is empty
     if (items[index] == NULL) {
         items[index] = newNode;
     } else {
+        // duplicated key , return false 
         if (curr->key == newKey) {
             return false;
         }
-
+        // loops down the chain to add to 
         while (curr->next) {
             curr = curr->next;
             if (curr->key == newKey) return false;
@@ -129,8 +135,8 @@ bool Dictionary<KeyType, ItemType>::add(KeyType newKey, ItemType newItem) {
     }
 
     size++;
+    // if current size is greater or equal to maxsize (threshold * tableSize) , resize
     if (size >= maxSize) {
-        cout << "resize" << endl;
         resize();
     }
 
@@ -150,12 +156,15 @@ void Dictionary<KeyType, ItemType>::remove(KeyType key) {
 
     int index = hash(key);
     Node *curr = items[index];
+    
     if (curr) {
+        // first node of the chain to be deleted , delete and set next node to be head 
         if (curr->key == key) {
             Node *temp = curr->next;
             delete curr->next;
             items[index] = temp;
         } else {
+            // loop til the node is found 
             while (curr->next) {
                 if (curr->next->key == key) {
                     Node *temp = curr->next->next;
@@ -250,14 +259,16 @@ bool Dictionary<KeyType, ItemType>::isEmpty() {
 template <typename KeyType, typename ItemType>
 void Dictionary<KeyType, ItemType>::resize() {
     int oldTableSize = tableSize;
-    tableSize *= 2;
-    maxSize = (int)(tableSize * threshold);
+    tableSize *= 2; // double the size 
+    maxSize = (int)(tableSize * threshold); // calculate 
 
-    Node **oldItems = items;
-    Node *newItems[tableSize];
+
+    Node **oldItems = items; // copy of old items
+    Node *newItems[tableSize]; // new array to store the new table 
     for (int i = 0; i < tableSize; i++)
         newItems[i] = NULL;
 
+    // rehashing and transfering into new table 
     size = 0;
     for (int hash = 0; hash < oldTableSize; hash++){
         if (newItems[hash] != NULL) {
