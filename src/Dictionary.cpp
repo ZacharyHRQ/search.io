@@ -14,7 +14,7 @@ using namespace std;
 /**
 *
 * This is a constructor for the Dictionary class 
-* It sets the threshold , maxSize and default table size
+* It sets the threshold of load factor , maxSize and default table size
 * It empties the items array
 * 
 * */
