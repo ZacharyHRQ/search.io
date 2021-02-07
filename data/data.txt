@@ -48,3 +48,4 @@ Didaskaleinophobia: Fear of going to school
 Dishabiliophobia: Fear of undressing in front of another person
 Dolichocephalic: Long-headed
 Dysmorphophobia: Having the fear of physical deformities
+Faction: a party, a band of people acting against others

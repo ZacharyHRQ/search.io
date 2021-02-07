@@ -222,8 +222,7 @@ vector<string> getWordsFromFile(){
 }
 
 // Fills lps[] for given patttern pat[0..M-1]
-void computeLPSArray(string pat, int M, int *lps)
-{
+void computeLPSArray(string pat, int M, int *lps){
     // length of the previous longest prefix suffix
     int len = 0;
 
@@ -241,17 +240,11 @@ void computeLPSArray(string pat, int M, int *lps)
         }
         else // (pat[i] != pat[len])
         {
-            // This is tricky. Consider the example.
-            // AAACAAAA and i = 7. The idea is similar
-            // to search step.
             if (len != 0)
             {
                 len = lps[len - 1];
-
-                // Also, note that we do not increment
-                // i here
             }
-            else // if (len == 0)
+            else 
             {
                 lps[i] = 0;
                 i++;
@@ -285,7 +278,6 @@ int KMPSearch(string pat, string txt)
 
         if (j == M)
         {
-            // printf("Found pattern at index %d ", i - j);
             return i - j;
             j = lps[j - 1];
         }
@@ -304,10 +296,8 @@ int KMPSearch(string pat, string txt)
     return -1;
 }
 
-// GLOBAL Search
-
-vector<string> search(vector<string> w,string pat)
-{
+// KMP algorithm
+vector<string> search(vector<string> w,string pat){
     vector<string> results;
 
     auto start = chrono::high_resolution_clock::now();
@@ -327,8 +317,9 @@ vector<string> search(vector<string> w,string pat)
     return results;
 }
 
+// navie searching checking if a word matches 
 vector<string> navieSearch(vector<string> w , string pat){
-   vector<string> results;
+    vector<string> results;
 
     auto start = chrono::high_resolution_clock::now();
 
