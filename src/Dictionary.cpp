@@ -1,9 +1,9 @@
 /**
 *
-* 	Dictionary cpp file
+* 	Dictionary.cpp - Implementation of Dictionary ADT using Pointers
 *
 * 	@author Zachary S10185319J
-* 	@since 01-21-2021
+* 	@since 21-01-2021
 */
 
 #include "Dictionary.h"
@@ -80,7 +80,6 @@ int charvalue(char c){
 * @return int This returns the index to place into items array
 *
 * */
-
 template <typename KeyType, typename ItemType>
 int Dictionary<KeyType, ItemType>::hash(KeyType key) {
 

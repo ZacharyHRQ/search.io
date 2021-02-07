@@ -1,3 +1,11 @@
+/**
+ *
+ * Trie.h - Header file of Trie
+ *
+ * @author Hou Man S10197636F, Zachary S10185319J
+ * @since 07-02-2021
+**/
+
 #include <iostream>
 #include <fstream>
 #include <string>

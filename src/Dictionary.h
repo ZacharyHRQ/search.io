@@ -1,10 +1,10 @@
 /**
 *
-* 	Dictionary header file
+* 	Trie.h - Header file of Dictionary
 *   This is a hash table that has used dynamic resizing and has thresholds to how long the chains can be 
 *
 * 	@author Zachary S10185319J
-* 	@since 01-21-2021
+* 	@since 21-01-2021
 */
 
 #pragma once
@@ -35,34 +35,97 @@ private:
 
 public:
 
-	// constructor
+	/**
+	*
+	* This is a constructor for the Dictionary class 
+	* It sets the threshold of load factor , maxSize and default table size
+	* It empties the items array
+	* 
+	* */
 	Dictionary();
 
-	// destructor
+	/**
+	*
+	* This is a destructor for the Dictionary class 
+	* It empties the items array and deletes every value in items
+	* 
+	* */
 	~Dictionary();
 
-	// hash function
+	/**
+	*
+	* This is the hash function method that takes a key and hashes it into an index
+	* 
+	* @param KeyType key : key to hash
+	* 
+	* @return int This returns the index to place into items array
+	*
+	* */
 	int hash(KeyType key);
 
-	// add a new item with the specified key to the Dictionary
+	/**
+	*
+	* This method is used to add a new key value pair to the dictionary , it resize the dictionary if the size exceeds the threshold size
+	* 
+	* @param KeyType newKey : key to hash , ItemType newItem : the item to newKey is mapped to 
+	* 
+	* @return bool This returns if the method worked
+	*
+	* */
 	bool add(KeyType newKey, ItemType newItem);
 
-	//remove an item with the specified key in the Dictionary
+	/**
+	*
+	* This method is used to remove a key value pair from the dictionary
+	* 
+	* @param KeyType key : key to find from the dictionary
+	* 
+	*
+	* */
 	void remove(KeyType key);
 
-	// retrieve an item with the specified key in the Dictionary 
+	/**
+	*
+	* This method is used to retrive the value from the input key
+	* 
+	* @param KeyType key : key to find from the dictionary
+	* 
+	* @return ItemType This returns the value associated to the key from @param
+	* */
 	ItemType get(KeyType key);
 
-	// check if the Dictionary is empty
+	/**
+	*
+	* This method is used to check if the dictionary is empty
+	* 
+	* @return bool This returns if the dictionary is empty
+	* */
 	bool isEmpty();
 
-	// check the size of Dictionary
+	/**
+	*
+	* This method is used to retrieve the size of the dictionary
+	* 
+	* @return int This returns the size of the dictionary
+	* */
 	int getLength();
 
-	// display the items in the Dictionary
+	/**
+	*
+	* This method is used to display the contents of the dictionary
+	* 
+	* */
 	void print();
 
-	// resizing the Dictionary 
+	/**
+	*
+	* This method is used to dyanmically resize the dictionary
+	* It doubles the size of the current tablesize 
+	* Creates a new array and rehashes the current array key-value pairs
+	* adding it into the new array. It deletes the old array.
+	* 
+	* 
+	* */
 	void resize();
 
 };
