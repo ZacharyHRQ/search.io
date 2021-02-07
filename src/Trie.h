@@ -13,7 +13,7 @@
 #include <chrono>
 using namespace std;
 
-const int MAX_SIZE = 37; // (26 characters + empty space + 10 digits(0-9))
+const int MAX_SIZE = 37; // (26 alphabet letters + empty space + 10 digits(0-9))
 typedef string ItemType;
 
 class Trie
