@@ -182,9 +182,6 @@ void displayMenu()
 
 void initTrie(Trie *trie, vector<string> &words)
 {
-    // vector<string> words = getWordsFromFile();
-    // for(string word : words){ 
-    //     trie->insert(convertStringToLower(word));
     vector<string> initial = {"book", "book store", "apple", "appstore", "apple macbook", "apple iphone", "apple iphone 11", "apple iphone 12", "apple macbook pro 2019", "apple macbook pro 2020", "cup", "red", "wet", "dog", "big", "fast", "lunch", "five"};
     
     for (string w: initial){
@@ -194,8 +191,7 @@ void initTrie(Trie *trie, vector<string> &words)
 }
 
 // reading from data file , loading into dictionary
-void initDict(Dictionary<string,string> &d)
-{
+void initDict(Dictionary<string,string> &d){
     string data, word, define;
     ifstream file("../data/data.txt");
     if (file.is_open())
