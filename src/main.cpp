@@ -213,6 +213,17 @@ void initTrie(Trie *trie, vector<string> &words)
         words.push_back(w);
     }
 
+    string data;
+    ifstream file("../data/words.txt");
+    if (file.is_open())
+    {
+        while (getline(file, data))
+        {
+            trie->insert(data);
+            words.push_back(data);
+        }
+        file.close();
+    }
 }
 
 /**
